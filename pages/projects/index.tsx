@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       createAt: true,
       name: true,
       keyWords: true,
-      brefIllustration: true,
+      // brefIllustration: true,
     },
   });
   const videoData = await prisma.project.findMany({
@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       createAt: true,
       name: true,
       keyWords: true,
-      brefIllustration: true,
+      // brefIllustration: true,
     },
   });
   const logoData = await prisma.project.findMany({
@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       createAt: true,
       name: true,
       keyWords: true,
-      brefIllustration: true,
+      // brefIllustration: true,
     },
   });
   return {
