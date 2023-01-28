@@ -1,0 +1,81 @@
+@use "../../pages/variables";
+
+.footer {
+  width: 100vw;
+  min-height: 200px;
+  background-color: var(--backgroundColor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+
+  // > div {
+  //   --b2: linear-gradient(
+  //     90deg,
+  //     rgba(237, 140, 1, 1) 0%,
+  //     rgba(3, 155, 14, 1) 50%,
+  //     rgba(0, 182, 193, 1) 100%
+  //   );
+  // }
+}
+
+.text {
+  font-family: var(--robotoSlab);
+  color: var(--textColor);
+  letter-spacing: 0.05rem;
+  user-select: none;
+
+  span {
+    color: var(--textColor);
+    transition: color 200ms ease-in-out;
+  }
+}
+
+.heartActive {
+  color: variables.$color1-light;
+}
+
+.socialMedia {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+
+  a {
+    color: var(--textColor);
+    transition: color 200ms ease-in-out;
+    position: relative;
+    svg {
+      width: 3rem;
+      height: 1.5rem;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      bottom: -3px;
+      left: 0;
+      border-radius: 1.5px;
+      transition: background-color 200ms ease-in-out;
+    }
+    &:hover::after {
+      background-color: var(--textColor) !important;
+    }
+  }
+}
+
+.socialMediaChild {
+  $colors: (
+    1: variables.$color1-light,
+    2: variables.$color2-light,
+    3: variables.$color3-light,
+    4: variables.$color4-light,
+  );
+
+  @for $i from 1 through 4 {
+    &:nth-child(#{$i}) a::after {
+      background-color: map-get($colors, $i);
+    }
+  }
+}

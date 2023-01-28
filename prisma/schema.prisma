@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+  createAt DateTime @default(now())
+  type String
+  shortDescription String
+  fullContent String
+  comments Comment[]
+  worker Worker[]
+  keyWords String[]
+  published Boolean
+  mainIllustration String
+}
+
+model Comment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+  Project Project? @relation(fields: [projectId], references: [id])
+  projectId String? @db.ObjectId
+  Logos Logos? @relation(fields: [logosId], references: [id])
+  logosId String? @db.ObjectId
+}
+
+model Worker {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  Project Project @relation(fields: [projectId], references: [id])
+  projectId String @db.ObjectId
+  fullName String
+  role String
+  image Photo[]
+}
+
+type Photo {
+  height Int
+  width Int
+  url String
+}
+
+model Logos {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  image Photo[]
+  shortDescription String
+  createdAt DateTime @default(now())
+  comments Comment[]
+  keyWords String[]
+}

@@ -1,0 +1,66 @@
+@use "./variables";
+@use "./progress";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  width: 100vw;
+  overflow-x: hidden;
+  @media (prefers-color-scheme: dark) {
+    background-color: lighten(variables.$dark-background, 4%);
+  }
+  @media (prefers-color-scheme: light) {
+    background-color: darken(variables.$light-background, 4%);
+  }
+  @media (prefers-color-scheme: no-preference) {
+    background-color: darken(variables.$light-background, 4%);
+  }
+}
+main {
+  width: 100vw;
+  min-height: calc(100vh - 290px);
+  margin-top: 90px !important;
+
+  section {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1400px;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: lighten(variables.$dark-background, 4%);
+    }
+    @media (prefers-color-scheme: light) {
+      background-color: darken(variables.$light-background, 4%);
+    }
+    @media (prefers-color-scheme: no-preference) {
+      background-color: darken(variables.$light-background, 4%);
+    }
+  }
+}
+
+section {
+  position: relative;
+}
+
+// ! setup color theme
+@media (prefers-color-scheme: dark) {
+  :root {
+    --backgroundColor: #{variables.$dark-background};
+    --textColor: white;
+  }
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --backgroundColor: #{variables.$light-background};
+    --textColor: black;
+  }
+}
+@media (prefers-color-scheme: no-preference) {
+  :root {
+    --backgroundColor: #{variables.$light-background};
+    --textColor: black;
+  }
+}
