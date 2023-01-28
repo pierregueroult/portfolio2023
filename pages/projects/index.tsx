@@ -28,34 +28,9 @@ type Props = {
 const Projects: React.FC<Props> = (props) => {
   return (
     <Layout title={titre} description={description}>
-      {props ? (
-        <ProjectsSection projects={props.webPosts} type="WEB" />
-      ) : (
-        <p>Loading</p>
-      )}
-      {/* <ProjectsSection
-        projects={[
-          {
-            id: "1",
-            createAt: "2001-20-16",
-            name: "Web 1",
-            keyWords: ["portfolio"],
-            brefIllustration:
-              "https://i.postimg.cc/MT5qJLBL/testing-image.webp",
-          },
-          {
-            id: "2",
-            createAt: "2001-20-16",
-            name: "Web 1",
-            keyWords: ["portfolio"],
-            brefIllustration:
-              "https://i.postimg.cc/MT5qJLBL/testing-image.webp",
-          },
-        ]}
-        type="WEB"
-      /> */}
-      {/* <ProjectsSection projects={props.videoPosts} type="AUDIOVISUEL" />
-      <ProjectsSection projects={props.logoPosts} type="LOGO" /> */}
+      <ProjectsSection projects={props.webPosts} type="WEB" />
+      <ProjectsSection projects={props.videoPosts} type="AUDIOVISUEL" />
+      <ProjectsSection projects={props.logoPosts} type="LOGO" />
     </Layout>
   );
 };
