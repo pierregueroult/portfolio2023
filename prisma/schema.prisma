@@ -21,7 +21,9 @@ model Project {
   worker Worker[]
   keyWords String[]
   published Boolean
+  brefIllustration String
   mainIllustration String
+  documentationLink String
 }
 
 model Comment {

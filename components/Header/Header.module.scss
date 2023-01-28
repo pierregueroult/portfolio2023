@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 1000;
 
   svg {
     height: 95%;
@@ -60,10 +61,10 @@
 
 .link {
   color: var(--textColor);
-  text-decoration: var(--textColor);
-  font-weight: 500;
-  font-family: var(--robotoSlab);
-  font-size: 1.1rem;
+  text-decoration: none;
+  font-family: var(--titleFont);
+  font-size: 1.35rem;
+  font-weight: 400;
 }
 
 .linkIsActive {

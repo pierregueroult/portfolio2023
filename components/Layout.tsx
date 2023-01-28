@@ -2,6 +2,8 @@
 import { NextSeo } from "next-seo";
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
+// ? import other files
+import { titleFont, textFont } from "@/lib/fontHandling";
 
 // ? some type and interface
 type Props = {
@@ -39,6 +41,7 @@ function Layout({ children, title, description }: Props): JSX.Element {
         exit="out"
         variants={animation}
         transition={{ type: "linear" }}
+        className={`${textFont.variable} ${titleFont.variable}`}
       >
         {children}
       </motion.main>

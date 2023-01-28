@@ -14,13 +14,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 // ? dependancies
 import styles from "./Footer.module.scss";
-
-// ? font setup
-const robotoSlab = Roboto({
-  weight: "300",
-  subsets: ["latin"],
-  variable: "--robotoSlab",
-});
+import { titleFont } from "@/lib/fontHandling";
 
 const socialMedias = [
   {
@@ -47,7 +41,7 @@ const socialMedias = [
 
 function Footer() {
   return (
-    <footer className={`${styles.footer} ${robotoSlab.variable}`}>
+    <footer className={`${styles.footer} ${titleFont.variable}`}>
       <ul className={styles.socialMedia}>
         {socialMedias.map(({ Icon, url, name }, i) => (
           <li key={i} className={styles.socialMediaChild}>

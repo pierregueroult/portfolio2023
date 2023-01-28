@@ -1,0 +1,46 @@
+.title {
+  font-family: var(--titleFont);
+  color: var(--textColor);
+  font-weight: 400;
+  font-size: 2.5rem;
+}
+
+.errorText {
+  font-family: var(--textFont);
+  font-weight: 400;
+}
+
+.articlesContainer {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.section {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.article {
+  width: 300px;
+  background-color: aqua;
+  height: 200px;
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+
+  > img {
+    object-fit: cover;
+    z-index: 50;
+  }
+}
+
+.articleContent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 51;
+}

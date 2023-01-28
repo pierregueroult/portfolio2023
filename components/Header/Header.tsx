@@ -1,24 +1,12 @@
 // ? import modules
 import Link from "next/link";
-import { Roboto, Roboto_Slab } from "@next/font/google";
 import { AnimateSharedLayout, LayoutGroup, motion } from "framer-motion";
 
 // ? import dependencies
 import styles from "./Header.module.scss";
 import Logo from "../Logo";
 import { useRouter } from "next/router";
-
-const roboto = Roboto({
-  weight: "500",
-  subsets: ["latin"],
-  variable: "--roboto",
-});
-
-const robotoSlab = Roboto_Slab({
-  weight: "500",
-  subsets: ["latin"],
-  variable: "--robotoSlab",
-});
+import { titleFont, textFont } from "@/lib/fontHandling";
 
 const routes: { name: string; link: string }[] = [
   {
@@ -50,7 +38,7 @@ export default function Header() {
   const router = useRouter();
   return (
     <header
-      className={`${styles.header} ${roboto.variable} ${robotoSlab.variable}`}
+      className={`${styles.header} ${textFont.variable} ${titleFont.variable}`}
     >
       <Logo />
       <LayoutGroup>

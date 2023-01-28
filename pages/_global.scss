@@ -9,6 +9,8 @@
 body {
   width: 100vw;
   overflow-x: hidden;
+  scroll-behavior: smooth;
+
   @media (prefers-color-scheme: dark) {
     background-color: lighten(variables.$dark-background, 4%);
   }
@@ -19,15 +21,23 @@ body {
     background-color: darken(variables.$light-background, 4%);
   }
 }
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 main {
   width: 100vw;
-  min-height: calc(100vh - 290px);
+  min-height: calc(100vh - calc(#{variables.$footer_height} + 90px));
   margin-top: 90px !important;
 
   section {
-    margin: 0 auto;
-    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
     max-width: 1400px;
+    position: relative;
 
     @media (prefers-color-scheme: dark) {
       background-color: lighten(variables.$dark-background, 4%);
@@ -39,10 +49,6 @@ main {
       background-color: darken(variables.$light-background, 4%);
     }
   }
-}
-
-section {
-  position: relative;
 }
 
 // ! setup color theme
