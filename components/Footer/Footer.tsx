@@ -55,8 +55,6 @@ function Footer() {
       <WebsiteCarbonBadge
         url="https://pierregueroult.dev"
         dark={true}
-        co2="0.12"
-        percentage="75"
         lang="fr"
       />
     </footer>

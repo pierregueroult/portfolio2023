@@ -13,6 +13,7 @@ datasource db {
 model Project {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique
+  linkName String @unique
   createAt DateTime @default(now())
   type String
   shortDescription String

@@ -48,7 +48,7 @@ export default function Header() {
               <li key={i}>
                 <Link href={link} className={styles.link}>
                   {name}
-                  {isActiveLink(link, router.pathname) && (
+                  {isActiveLink(router.pathname, link) && (
                     <motion.div
                       layoutId="navigation-underline"
                       className={styles.linkIsActive}

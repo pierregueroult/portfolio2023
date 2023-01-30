@@ -2,7 +2,6 @@ import Layout from "@/components/Layout";
 import { GetServerSideProps } from "next";
 import prisma from "@/lib/prisma";
 import { makeSerializable } from "@/lib/makeSerializable";
-import { useEffect } from "react";
 import ProjectsSection from "@/components/ProjectsSection/ProjectsSection";
 
 const titre = "Mes projets";
@@ -13,7 +12,8 @@ export type Project = {
   createAt: string;
   name: string;
   keyWords: string[];
-  brefIllustration: string;
+  shortDescription: string;
+  linkName: string;
 };
 
 export type ProjectsList = Project[];
@@ -25,7 +25,7 @@ type Props = {
   canonical: String;
 };
 
-const Projects: React.FC<Props> = (props) => {
+const Projects = (props: Props) => {
   return (
     <Layout title={titre} description={description}>
       <ProjectsSection projects={props.webPosts} type="WEB" />
@@ -43,17 +43,19 @@ export const getServerSideProps: GetServerSideProps = async () => {
       createAt: true,
       name: true,
       keyWords: true,
-      // brefIllustration: true,
+      shortDescription: true,
+      linkName: true,
     },
   });
   const videoData = await prisma.project.findMany({
-    where: { published: true, type: "video" },
+    where: { published: true, type: "audiovisuel" },
     select: {
       id: true,
       createAt: true,
       name: true,
       keyWords: true,
-      // brefIllustration: true,
+      shortDescription: true,
+      linkName: true,
     },
   });
   const logoData = await prisma.project.findMany({
@@ -63,7 +65,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
       createAt: true,
       name: true,
       keyWords: true,
-      // brefIllustration: true,
+      shortDescription: true,
+      linkName: true,
     },
   });
   return {

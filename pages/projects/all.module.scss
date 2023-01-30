@@ -1,0 +1,10 @@
+@use "../../pages/variables";
+
+.allProjects {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 2rem;
+  margin-top: calc(#{variables.$header_height} + 2rem);
+}

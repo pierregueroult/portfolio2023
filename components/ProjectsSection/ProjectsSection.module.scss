@@ -1,3 +1,5 @@
+@use "../../pages/variables";
+
 .title {
   font-family: var(--titleFont);
   color: var(--textColor);
@@ -8,6 +10,8 @@
 .errorText {
   font-family: var(--textFont);
   font-weight: 400;
+  color: var(--textColor);
+  opacity: 0.7;
 }
 
 .articlesContainer {
@@ -15,32 +19,15 @@
   height: 200px;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 3rem;
   margin-top: 1rem;
 }
 
 .section {
   margin-top: 2rem;
   margin-bottom: 2rem;
-}
 
-.article {
-  width: 300px;
-  background-color: aqua;
-  height: 200px;
-  position: relative;
-  border-radius: 1rem;
-  overflow: hidden;
-
-  > img {
-    object-fit: cover;
-    z-index: 50;
+  &:first-of-type {
+    margin-top: calc(#{variables.$header_height} + 2rem);
   }
-}
-
-.articleContent {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 51;
 }
