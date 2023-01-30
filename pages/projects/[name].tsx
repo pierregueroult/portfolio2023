@@ -29,10 +29,6 @@ type Props = {
 };
 
 export default function Project(props: Props): JSX.Element {
-  useEffect(() => {
-    console.log(props);
-  }, []);
-
   return props.isValid ? (
     <Layout title={title} description={description}>
       <section>Hello</section>
