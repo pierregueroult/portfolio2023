@@ -123,9 +123,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       };
     }
     const devto: DevtoContent = await axios.get(data.fullContent, {
-      headers: {
-        "api-key": process.env.DEVTO_API_KEY,
-      },
+      // headers: {
+      //   "api-key": process.env.DEVTO_API_KEY,
+      // },
     });
 
     const content = await unified()
