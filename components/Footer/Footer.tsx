@@ -50,7 +50,9 @@ function Footer() {
         ))}
       </ul>
       <h3 className={styles.text}>
-        Coded with <FontAwesomeIcon icon={faHeart} /> by Pierre Guéroult
+        Coded with
+        <FontAwesomeIcon icon={faHeart} />
+        by Pierre Guéroult
       </h3>
       <WebsiteCarbonBadge
         url="https://pierregueroult.dev"

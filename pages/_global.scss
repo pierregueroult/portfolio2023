@@ -70,3 +70,21 @@ main {
     --textColor: black;
   }
 }
+
+code {
+  .hljs-keyword {
+    color: variables.$color1-light;
+  }
+  .hljs-attr {
+    color: variables.$color4-dark;
+  }
+  .hljs-title {
+    color: variables.$color2-light;
+  }
+  .hljs-property {
+    color: white;
+  }
+  .hljs-string {
+    color: variables.$color4-light;
+  }
+}

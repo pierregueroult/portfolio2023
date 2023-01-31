@@ -1,5 +1,4 @@
 import Layout from "@/components/Layout";
-import styles from "./index.module.scss";
 
 // ? title for next-seo
 const titre = "Accueil";
@@ -11,7 +10,7 @@ const description = `Bienvenue sur mon portfolio | Je suis apprenti
 function Home() {
   return (
     <Layout title={titre} description={description}>
-      <section className={styles.firstSection}>
+      <section>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"

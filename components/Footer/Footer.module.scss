@@ -18,9 +18,9 @@
   user-select: none;
   font-weight: 400;
 
-  span {
-    color: var(--textColor);
-    transition: color 200ms ease-in-out;
+  svg {
+    height: 1.1rem;
+    margin: 0 0.3rem;
   }
 }
 
