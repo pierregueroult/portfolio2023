@@ -26,8 +26,4 @@
 .section {
   margin-top: 2rem;
   margin-bottom: 2rem;
-
-  &:first-of-type {
-    margin-top: calc(#{variables.$header_height} + 2rem);
-  }
 }

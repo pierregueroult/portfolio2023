@@ -38,6 +38,7 @@ main {
     width: 90%;
     max-width: 1400px;
     position: relative;
+    color: var(--textColor);
 
     @media (prefers-color-scheme: dark) {
       background-color: lighten(variables.$dark-background, 4%);

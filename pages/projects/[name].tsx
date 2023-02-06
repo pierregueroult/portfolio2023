@@ -1,20 +1,14 @@
 import Error from "next/error";
-import axios from "axios";
 import Image from "next/image";
-import { unified } from "unified";
-import rehypeStringify from "rehype-stringify";
-import rehypeHighlight from "rehype-highlight";
-import { rehype } from "rehype";
-import { useEffect } from "react";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import rehypeFormat from "rehype-format";
-
+import { faDev } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Layout from "@/components/Layout";
 import { makeSerializable } from "@/lib/makeSerializable";
 import prisma from "@/lib/prisma";
 import { GetServerSideProps } from "next";
 import styles from "./name.module.scss";
+import { useEffect, useState } from "react";
+import axios, { AxiosResponse } from "axios";
 
 export type CompleteProject = {
   id: string;
@@ -34,22 +28,23 @@ export type CompleteProject = {
 type Props = {
   isValid: boolean;
   data?: CompleteProject;
-  pageContent?: string;
 };
 
-type DevtoContent = {
-  data: {
-    body_markdown: string;
-  };
-};
+export default function Project({ isValid, data }: Props): JSX.Element {
+  const [articleContent, setArticleContent] = useState("");
 
-export default function Project({
-  isValid,
-  data,
-  pageContent,
-}: Props): JSX.Element {
   useEffect(() => {
-    console.log(pageContent);
+    const fetchArticle = async () => {
+      const content = await axios.get(
+        `/api/getArticle?id=${data?.fullContent}`
+      );
+      setArticleContent(content.data.articleContent);
+    };
+
+    if (isValid) {
+      fetchArticle();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return isValid && data ? (
@@ -82,19 +77,28 @@ export default function Project({
             className={styles.headerImage}
           />
         </header>
-        {data.fullContent === "notOut" ||
-        typeof pageContent !== "string" ||
-        pageContent === "" ? (
+        {articleContent === undefined || articleContent.length === 0 ? (
           <article className={styles.projectArticle}>
             <p className={styles.errorText}>
-              Le contenu de cet article n&apos;est pas encore rédigé !
+              Cet article n&apos;a pas encore été publié !
             </p>
           </article>
         ) : (
-          <article
-            className={styles.projectArticle}
-            dangerouslySetInnerHTML={{ __html: pageContent || "" }}
-          ></article>
+          <>
+            <article
+              className={styles.projectArticle}
+              dangerouslySetInnerHTML={{ __html: articleContent || "" }}
+            ></article>
+            <footer className={styles.footer}>
+              <p>
+                La documentation complète de ce projet peut être trouvée{" "}
+                <a href={data.documentationLink}>ici</a>
+              </p>
+              <p>
+                Post réalisé grâce à l&apos;API <FontAwesomeIcon icon={faDev} />
+              </p>
+            </footer>
+          </>
         )}
       </section>
     </Layout>
@@ -114,37 +118,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
         },
       };
     }
-    if (data.fullContent === "notOut") {
-      return {
-        props: {
-          isValid: true,
-          data: makeSerializable(data),
-        },
-      };
-    }
-    const devto: DevtoContent = await axios.get(data.fullContent, {
-      // headers: {
-      //   "api-key": process.env.DEVTO_API_KEY,
-      // },
-    });
-
-    const content = await unified()
-      .use(remarkParse)
-      .use(remarkRehype)
-      .use(rehypeFormat)
-      .use(rehypeStringify)
-      .process(devto.data.body_markdown);
-
-    const file = await rehype()
-      .data("settings", { fragment: true })
-      .use(rehypeHighlight)
-      .process(content.value);
-
     return {
       props: {
         isValid: true,
         data: makeSerializable(data),
-        pageContent: makeSerializable(String(file)),
       },
     };
   } else {

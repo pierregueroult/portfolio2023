@@ -10,7 +10,7 @@ function ProjectCard({ project }: Props): JSX.Element {
     <Link href={`/projects/${project.linkName}`}>
       <article className={styles.article}>
         <div className={styles.articleContent}>
-          <h4 className={styles.articleTitle}>{project.name}</h4>
+          <h3 className={styles.articleTitle}>{project.name}</h3>
           <p className={styles.articleText}>{project.shortDescription}</p>
           <ul className={styles.articleKeywords}>
             {project.keyWords.map((keyword, i) => (

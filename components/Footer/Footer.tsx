@@ -45,7 +45,9 @@ function Footer() {
       <ul className={styles.socialMedia}>
         {socialMedias.map(({ Icon, url, name }, i) => (
           <li key={i} className={styles.socialMediaChild}>
-            <a href={url}>{Icon}</a>
+            <a href={url} aria-label={name}>
+              {Icon}
+            </a>
           </li>
         ))}
       </ul>

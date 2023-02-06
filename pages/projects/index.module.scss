@@ -1,0 +1,14 @@
+@use "../variables";
+
+.header {
+  width: 100%;
+  margin-top: calc(#{variables.$header_height} + 2rem);
+
+  h1 {
+    text-align: center;
+    color: var(--textColor);
+    font-family: var(--titleFont);
+    font-weight: 400;
+    font-size: 2.8rem;
+  }
+}

@@ -46,7 +46,7 @@ export default function Header() {
           <ul className={styles.links}>
             {routes.map(({ name, link }, i) => (
               <li key={i}>
-                <Link href={link} className={styles.link}>
+                <Link href={link} className={styles.link} aria-label={name}>
                   {name}
                   {isActiveLink(router.pathname, link) && (
                     <motion.div
