@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import ProjectBanner from "@/components/ProjectBanner/ProjectBanner";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import { makeSerializable } from "@/lib/makeSerializable";
 import prisma from "@/lib/prisma";
@@ -18,9 +19,12 @@ const AllProjects = (props: Props): JSX.Element => {
   return (
     <Layout title={titre} description={description}>
       <section className={styles.allProjects}>
-        {props.projects.map((project) => (
-          <ProjectCard project={project} key={project.id} />
-        ))}
+        <h1>Tous mes projets :</h1>
+        <div className={styles.container}>
+          {props.projects.map((project) => (
+            <ProjectBanner project={project} key={project.id} />
+          ))}
+        </div>
       </section>
     </Layout>
   );
@@ -36,6 +40,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       keyWords: true,
       shortDescription: true,
       linkName: true,
+      brefIllustration: true,
     },
   });
   return {

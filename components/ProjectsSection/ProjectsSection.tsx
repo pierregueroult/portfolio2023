@@ -1,11 +1,10 @@
 import { ProjectsList } from "@/pages/projects";
 import styles from "./ProjectsSection.module.scss";
-import Link from "next/link";
 import ProjectCard from "../ProjectCard/ProjectCard";
 
 type Props = {
   projects: ProjectsList | [];
-  type: "WEB" | "AUDIOVISUEL" | "LOGO";
+  type: "WEB" | "AUDIOVISUEL" | "GRAPHISME";
 };
 
 function ProjectsSection({ projects, type }: Props) {

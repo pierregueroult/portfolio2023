@@ -36,6 +36,7 @@
   top: 24px;
   right: 24px;
   border-radius: 0.7rem;
+  object-fit: cover;
 }
 
 .headerTexts {
@@ -54,6 +55,17 @@
   color: var(--textColor);
   position: absolute;
   bottom: 0;
+}
+
+.pdfPreview {
+  $width: 450px;
+  max-width: $width;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+  margin: 2rem 0 0 0;
+  height: $width * 1.37;
 }
 
 .headerKeyword {
@@ -118,6 +130,7 @@
     font-weight: 400;
     user-select: none;
     -webkit-user-drag: none;
+    margin-top: 1.5rem;
   }
 
   h1 {
@@ -142,9 +155,15 @@
     color: variables.$color4-light;
   }
 
+  strong {
+    color: variables.$color2-light;
+    font-weight: 400;
+  }
+
   blockquote {
     position: relative;
     left: 10px;
+    margin: 1rem 0;
 
     &::after {
       content: "";
@@ -167,6 +186,7 @@
 .footer {
   margin: 4rem 0;
   border-radius: 1rem;
+  position: relative;
 
   p {
     text-align: center;
@@ -187,5 +207,77 @@
       height: 2rem;
       margin-left: 0.5rem;
     }
+  }
+}
+
+.preloaderTitle {
+  width: 45%;
+  height: 2.5rem;
+}
+
+.preloader {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  div {
+    background-color: var(--backgroundColor);
+    overflow: hidden;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      animation: preloaderAnim 3000ms infinite;
+      background: linear-gradient(
+        90deg,
+        var(--backgroundColor) 0%,
+        #333 10%,
+        var(--backgroundColor) 20%,
+        var(--backgroundColor) 100%
+      );
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.preloaderText {
+  width: 100%;
+  height: 15rem;
+}
+
+.preloaderImage {
+  width: 60%;
+  margin-left: 20%;
+  height: 10rem;
+}
+
+.embedVideo {
+  position: fixed;
+  width: 300px;
+  height: 200px;
+  right: 4rem;
+  bottom: 4rem;
+  transition: width 200ms ease-in-out, height 200ms ease-in-out;
+  z-index: 1000;
+
+  &:hover {
+    width: 711px;
+    height: 400px;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@keyframes preloaderAnim {
+  0% {
+    transform: translateX(-20%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }

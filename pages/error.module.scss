@@ -1,0 +1,41 @@
+@use "./variables";
+
+.error {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+}
+
+.errorCode {
+  font-family: var(--titleFont);
+  font-weight: 400;
+  text-align: center;
+  color: var(--textColor);
+  font-size: 4rem;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 3px;
+    width: 100%;
+    bottom: 1rem;
+    background-color: var(--textColor);
+  }
+}
+
+.errorText {
+  text-align: center;
+  color: var(--textColor);
+  font-family: var(--textFont);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.errorLink {
+  margin-top: 1rem;
+  color: variables.$color4-light;
+}

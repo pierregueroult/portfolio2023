@@ -1,6 +1,5 @@
 import MarkdownToHTML from "@/lib/convert";
 import { getAllUnpublished } from "@/lib/devto";
-import { makeSerializable } from "@/lib/makeSerializable";
 import { NextApiRequest, NextApiResponse } from "next";
 
 type devtoArticle = {
@@ -14,6 +13,7 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const data = await getAllUnpublished();
+    // console.log(data);
     const query = req.query as { id: string };
 
     if (query.id === undefined) {

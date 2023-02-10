@@ -15,6 +15,7 @@ export type Project = {
   keyWords: string[];
   shortDescription: string;
   linkName: string;
+  brefIllustration: string;
 };
 
 export type ProjectsList = Project[];
@@ -22,7 +23,7 @@ export type ProjectsList = Project[];
 type Props = {
   webPosts: ProjectsList | [];
   videoPosts: ProjectsList | [];
-  logoPosts: ProjectsList | [];
+  graphicPosts: ProjectsList | [];
   canonical: String;
 };
 
@@ -34,7 +35,7 @@ const Projects = (props: Props) => {
       </header>
       <ProjectsSection projects={props.webPosts} type="WEB" />
       <ProjectsSection projects={props.videoPosts} type="AUDIOVISUEL" />
-      <ProjectsSection projects={props.logoPosts} type="LOGO" />
+      <ProjectsSection projects={props.graphicPosts} type="GRAPHISME" />
     </Layout>
   );
 };
@@ -49,6 +50,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       keyWords: true,
       shortDescription: true,
       linkName: true,
+      brefIllustration: true,
     },
   });
   const videoData = await prisma.project.findMany({
@@ -60,10 +62,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
       keyWords: true,
       shortDescription: true,
       linkName: true,
+      brefIllustration: true,
     },
   });
-  const logoData = await prisma.project.findMany({
-    where: { published: true, type: "logo" },
+  const graphicData = await prisma.project.findMany({
+    where: { published: true, type: "graphic" },
     select: {
       id: true,
       createAt: true,
@@ -71,13 +74,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
       keyWords: true,
       shortDescription: true,
       linkName: true,
+      brefIllustration: true,
     },
   });
   return {
     props: {
       webPosts: makeSerializable(webData),
       videoPosts: makeSerializable(videoData),
-      logoPosts: makeSerializable(logoData),
+      graphicPosts: makeSerializable(graphicData),
     },
   };
 };

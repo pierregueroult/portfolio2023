@@ -7,7 +7,7 @@ import { makeSerializable } from "@/lib/makeSerializable";
 import prisma from "@/lib/prisma";
 import { GetServerSideProps } from "next";
 import styles from "./name.module.scss";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 
 export type CompleteProject = {
@@ -35,7 +35,7 @@ export default function Project({ isValid, data }: Props): JSX.Element {
 
   useEffect(() => {
     const fetchArticle = async () => {
-      const content = await axios.get(
+      const content: AxiosResponse = await axios.get(
         `/api/getArticle?id=${data?.fullContent}`
       );
       setArticleContent(content.data.articleContent);
@@ -78,25 +78,42 @@ export default function Project({ isValid, data }: Props): JSX.Element {
           />
         </header>
         {articleContent === undefined || articleContent.length === 0 ? (
-          <article className={styles.projectArticle}>
-            <p className={styles.errorText}>
-              Cet article n&apos;a pas encore été publié !
-            </p>
-          </article>
+          <PreLoader />
         ) : (
           <>
             <article
               className={styles.projectArticle}
               dangerouslySetInnerHTML={{ __html: articleContent || "" }}
             ></article>
+            <MainIllustrationHandler
+              mainIllustration={data.mainIllustration}
+              title={data.name}
+            />
             <footer className={styles.footer}>
               <p>
                 La documentation complète de ce projet peut être trouvée{" "}
-                <a href={data.documentationLink}>ici</a>
+                <a
+                  href={data.documentationLink + "view"}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  ici
+                </a>
               </p>
               <p>
                 Post réalisé grâce à l&apos;API <FontAwesomeIcon icon={faDev} />
               </p>
+              {data.documentationLink.startsWith(
+                "https://drive.google.com/file/d/"
+              ) ? (
+                <iframe
+                  src={data.documentationLink + "preview"}
+                  height="400px"
+                  className={styles.pdfPreview}
+                />
+              ) : (
+                <Fragment />
+              )}
             </footer>
           </>
         )}
@@ -132,3 +149,36 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     };
   }
 };
+
+export function PreLoader(): JSX.Element {
+  return (
+    <article className={`${styles.projectArticle} ${styles.preloader}`}>
+      <div className={styles.preloaderTitle}></div>
+      <div className={styles.preloaderText}></div>
+      <div className={styles.preloaderImage}></div>
+    </article>
+  );
+}
+
+type MainIllustrationHandlerProps = {
+  mainIllustration: string;
+  title: string;
+};
+
+export function MainIllustrationHandler(
+  props: MainIllustrationHandlerProps
+): JSX.Element {
+  return props.mainIllustration.startsWith("https://www.youtube.com/embed/") ? (
+    <aside className={styles.embedVideo}>
+      <iframe
+        src={props.mainIllustration}
+        title={props.title}
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      />
+    </aside>
+  ) : (
+    <Fragment />
+  );
+}
