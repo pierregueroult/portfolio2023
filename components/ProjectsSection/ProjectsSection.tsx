@@ -1,3 +1,6 @@
+// ! This component is used to display the projects of a specific type (web, audiovisual, graphic design)
+
+// ? import dependencies
 import { ProjectsList } from "@/pages/projects";
 import styles from "./ProjectsSection.module.scss";
 import ProjectCard from "../ProjectCard/ProjectCard";

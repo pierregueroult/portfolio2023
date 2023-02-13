@@ -1,39 +1,28 @@
-import MarkdownToHTML from "@/lib/convert";
-import { getAllUnpublished } from "@/lib/devto";
-import { NextApiRequest, NextApiResponse } from "next";
+import getArticle from "@/lib/getArticle";
 
-type devtoArticle = {
-  id: number;
-  body_markdown: string;
-};
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
-    const data = await getAllUnpublished();
-    // console.log(data);
-    const query = req.query as { id: string };
-
-    if (query.id === undefined) {
-      res.json({ error: "wrong parameters" });
-      return;
-    }
-
-    const resArticle = data.find(
-      (article: devtoArticle) => article.id === Number(query.id)
-    );
-
-    var html;
-
-    if (resArticle?.body_markdown !== undefined) {
-      html = await MarkdownToHTML(resArticle.body_markdown);
-      res.json({ articleContent: html });
-    } else {
-      res.json({ error: "wrong parameters" });
-    }
-  } else {
-    res.json({ error: "wrong parameters" });
+  if (req.method !== "GET") {
+    res.json({ error: "wrong method" });
+    return;
   }
+
+  const { path } = req.query as { path: string };
+
+  if (!path || path.length === 0) {
+    res.json({ error: "wrong parameters" });
+    return;
+  }
+
+  const data = await getArticle(path);
+
+  if (!data || data.length === 0 || data === null || data === undefined) {
+    res.json({ error: "wrong path" });
+    return;
+  }
+  res.json(data);
 }

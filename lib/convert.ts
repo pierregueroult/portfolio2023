@@ -1,3 +1,6 @@
+// ! This file is used to convert markdown to html
+
+// ? import modules
 import rehypeFormat from "rehype-format";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
@@ -7,6 +10,7 @@ import { rehype } from "rehype";
 import rehypeHighlight from "rehype-highlight";
 
 export default async function MarkdownToHTML(markdown: string) {
+  // ? convert markdown to html
   const content = await unified()
     .use(remarkParse)
     .use(remarkRehype)
@@ -14,10 +18,12 @@ export default async function MarkdownToHTML(markdown: string) {
     .use(rehypeStringify)
     .process(markdown);
 
+  // ? add syntax highlighting for code blocks
   const file = await rehype()
     .data("settings", { fragment: true })
     .use(rehypeHighlight)
     .process(content.value);
 
+  // ? convert file to string and return
   return String(file);
 }

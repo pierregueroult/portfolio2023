@@ -1,3 +1,5 @@
+// ! This is a component that is used in every page of the website as a layout
+
 // ? import modules
 import { NextSeo } from "next-seo";
 import { ReactNode } from "react";

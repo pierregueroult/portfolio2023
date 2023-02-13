@@ -1,3 +1,5 @@
+// ! This component is used in the Layout component
+
 // ? import modules
 import Link from "next/link";
 import { AnimateSharedLayout, LayoutGroup, motion } from "framer-motion";

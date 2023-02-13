@@ -1,5 +1,6 @@
-// ? modules
-import { Roboto } from "@next/font/google";
+// ! This component is used in the Layout component
+
+// ? modules import
 import { WebsiteCarbonBadge } from "react-websitecarbon-badge";
 
 // ? icon handling import
@@ -12,10 +13,11 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-// ? dependancies
+// ? dependencies
 import styles from "./Footer.module.scss";
 import { titleFont } from "@/lib/fontHandling";
 
+// ? array of social media links
 const socialMedias = [
   {
     Icon: <FontAwesomeIcon icon={faLinkedin} />,

@@ -1,5 +1,10 @@
-import { Project } from "@/pages/projects";
+// ! This component is used in the projects page
+
+// ? import modules
 import Link from "next/link";
+
+// ? import dependencies
+import { Project } from "@/pages/projects";
 import styles from "./ProjectCard.module.scss";
 
 type Props = {

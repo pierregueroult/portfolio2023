@@ -36,9 +36,9 @@ export default function Project({ isValid, data }: Props): JSX.Element {
   useEffect(() => {
     const fetchArticle = async () => {
       const content: AxiosResponse = await axios.get(
-        `/api/getArticle?id=${data?.fullContent}`
+        `/api/getArticle?path=${data?.fullContent}`
       );
-      setArticleContent(content.data.articleContent);
+      setArticleContent(content.data);
     };
 
     if (isValid) {
