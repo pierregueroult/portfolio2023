@@ -2,14 +2,16 @@
 
 // ? import modules
 import Link from "next/link";
-import { AnimateSharedLayout, LayoutGroup, motion } from "framer-motion";
+import { LayoutGroup, motion } from "framer-motion";
 
 // ? import dependencies
-import styles from "./Header.module.scss";
+import styles from "@/styles/Header.module.scss";
 import Logo from "../Logo";
 import { useRouter } from "next/router";
 import { titleFont, textFont } from "@/lib/fontHandling";
+import { variantsPages, variantsParents } from "@/lib/layoutVariants";
 
+// ? setup routes
 const routes: { name: string; link: string }[] = [
   {
     name: "Accueil",
@@ -29,6 +31,7 @@ const routes: { name: string; link: string }[] = [
   },
 ];
 
+// ? setup isActiveLink
 function isActiveLink(currentPathname: string, href: string): boolean {
   if (href === "/") {
     return href === currentPathname;
@@ -36,15 +39,37 @@ function isActiveLink(currentPathname: string, href: string): boolean {
   return currentPathname.startsWith(href);
 }
 
-export default function Header() {
+type Props = {
+  currentPath: string;
+};
+
+export default function Header(props: Props) {
   const router = useRouter();
+
   return (
     <header
-      className={`${styles.header} ${textFont.variable} ${titleFont.variable}`}
+      className={`header ${styles.header} ${textFont.variable} ${
+        titleFont.variable
+      } ${
+        variantsPages.includes(props.currentPath) ||
+        variantsParents.some((variant) => props.currentPath.startsWith(variant))
+          ? styles.translucent
+          : ""
+      }`}
     >
-      <Logo />
+      <Link href={"/"} className={styles.titleLink}>
+        <h2 className={styles.title}>pierre gueroult.</h2>
+      </Link>
       <LayoutGroup>
-        <nav className={styles.nav}>
+        <nav
+          className={`${styles.nav} ${
+            variantsParents.some((variant) =>
+              props.currentPath.startsWith(variant)
+            )
+              ? styles.completeHidden
+              : ""
+          }`}
+        >
           <ul className={styles.links}>
             {routes.map(({ name, link }, i) => (
               <li key={i}>

@@ -1,4 +1,4 @@
-@use "../../pages/variables";
+@use "./variables";
 
 .header {
   position: fixed;
@@ -6,7 +6,7 @@
   top: 0;
   width: 100vw;
   height: 90px;
-  background-color: var(--backgroundColor);
+  background-color: variables.$background_color;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -17,8 +17,32 @@
   }
 }
 
+.completeHidden {
+  opacity: 0;
+  animation: 0ms 300ms removeDisplay forwards step-end;
+}
+
+.title {
+  font-family: var(--titleFont);
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: variables.$font_color;
+  margin: 0 2vw;
+  text-decoration: none;
+}
+
+.titleLink {
+  text-decoration: none;
+}
+
+.translucent {
+  background-color: transparent;
+}
+
 .nav {
   margin: 0 2vw;
+  transition: opacity 200ms ease-in-out;
+  position: relative;
 }
 
 .links {
@@ -34,27 +58,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--textColor);
+    color: variables.$font_color;
 
-    &:nth-child(1) {
-      > a > div {
-        background-color: variables.$color1-light;
-      }
-    }
-    &:nth-child(2) {
-      > a > div {
-        background-color: variables.$color2-light;
-      }
-    }
-    &:nth-child(3) {
-      > a > div {
-        background-color: variables.$color3-light;
-      }
-    }
-    &:nth-child(4) {
-      > a > div {
-        background-color: variables.$color4-light;
-      }
+    > a > div {
+      background-color: variables.$accent_color;
     }
   }
 }
@@ -72,4 +79,10 @@
   border-radius: 2px;
   transition: background-color 200ms ease-in-out;
   width: 100%;
+}
+
+@keyframes removeDisplay {
+  100% {
+    left: 200%;
+  }
 }

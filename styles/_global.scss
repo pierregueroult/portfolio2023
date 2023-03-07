@@ -1,0 +1,70 @@
+@use "./variables";
+@use "./progress";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background-color: variables.$background_color_main;
+}
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+main {
+  width: 100vw;
+  min-height: calc(100vh - #{variables.$footer_height});
+
+  section {
+    position: relative;
+    color: variables.$font_color;
+  }
+}
+
+::selection {
+  background-color: lighten($color: variables.$accent_color, $amount: 10);
+  color: variables.$font_color;
+}
+
+::-moz-selection {
+  background-color: lighten($color: variables.$accent_color, $amount: 10);
+  color: variables.$font_color;
+}
+
+code {
+  .hljs-keyword {
+    color: red;
+  }
+  .hljs-attr {
+    color: darkcyan;
+  }
+  .hljs-title {
+    color: orange;
+  }
+  .hljs-property {
+    color: white;
+  }
+  .hljs-string {
+    color: cyan;
+  }
+}
+
+.carbonbadge {
+  --b1: #{variables.$font_color} !important;
+  --b2: #{variables.$background_color_main} !important;
+
+  a:first-of-type {
+    color: invert($color: variables.$font_color) !important;
+  }
+
+  span {
+    color: variables.$font_color !important;
+  }
+}

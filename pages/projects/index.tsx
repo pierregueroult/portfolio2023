@@ -2,86 +2,102 @@ import Layout from "@/components/Layout";
 import { GetServerSideProps } from "next";
 import prisma from "@/lib/prisma";
 import { makeSerializable } from "@/lib/makeSerializable";
-import ProjectsSection from "@/components/ProjectsSection/ProjectsSection";
-import styles from "./index.module.scss";
+import styles from "@/styles/Project.module.scss";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useRef } from "react";
 
 const titre = "Mes projets";
 const description = `Retrouvez sur cette page les projets réalisés par Pierre Guéroult trié par catégorie !`;
 
-export type Project = {
-  id: string;
-  createAt: string;
+type projectType = {
+  concatenatedName: string;
   name: string;
-  keyWords: string[];
-  shortDescription: string;
-  linkName: string;
-  brefIllustration: string;
+  type: string;
+  banner: string;
+  keywords: string[];
+  color: string;
 };
 
-export type ProjectsList = Project[];
-
-type Props = {
-  webPosts: ProjectsList | [];
-  videoPosts: ProjectsList | [];
-  graphicPosts: ProjectsList | [];
-  canonical: String;
+type projectsProps = {
+  lastProjects: projectType[];
 };
 
-const Projects = (props: Props) => {
+const Projects = (props: projectsProps) => {
   return (
     <Layout title={titre} description={description}>
-      <header className={styles.header}>
-        <h1>Mes derniers projets </h1>
-      </header>
-      <ProjectsSection projects={props.webPosts} type="WEB" />
-      <ProjectsSection projects={props.videoPosts} type="AUDIOVISUEL" />
-      <ProjectsSection projects={props.graphicPosts} type="GRAPHISME" />
+      <h1 className={styles.title}>Mes derniers projets </h1>
+      <ul className={styles.projects}>
+        {props.lastProjects.map((project, i) => {
+          return <ProjectBanner key={i} {...project} />;
+        })}
+      </ul>
     </Layout>
   );
 };
 
+export const ProjectBanner = ({
+  concatenatedName,
+  name,
+  type,
+  color,
+}: projectType) => {
+  const elementRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    elementRef.current?.style.setProperty("--color", color);
+  }, [color, elementRef]);
+
+  return (
+    <li className={`${styles.banner__project}`} ref={elementRef}>
+      <Link
+        href={`/projects/${concatenatedName}`}
+        className={styles.banner__link}
+        title={name}
+      >
+        <div className={styles.banner__text}>
+          <h3>{name}</h3>
+          <h4>
+            {type === "video"
+              ? "Project Vidéo"
+              : type === "photo"
+              ? "Project Photo"
+              : type === "web"
+              ? "Project Web"
+              : "Project Autre"}
+          </h4>
+        </div>
+        <div className={styles.banner__callToAction}>
+          <FontAwesomeIcon icon={faArrowRight} />
+        </div>
+      </Link>
+    </li>
+  );
+};
+
 export const getServerSideProps: GetServerSideProps = async () => {
-  const webData = await prisma.project.findMany({
-    where: { published: true, type: "web" },
+  const lastProjects = await prisma.project.findMany({
+    where: {
+      visible: true,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+    take: 6,
     select: {
-      id: true,
-      createAt: true,
+      concatenatedName: true,
       name: true,
-      keyWords: true,
-      shortDescription: true,
-      linkName: true,
-      brefIllustration: true,
+      type: true,
+      banner: true,
+      keywords: true,
+      color: true,
     },
   });
-  const videoData = await prisma.project.findMany({
-    where: { published: true, type: "audiovisuel" },
-    select: {
-      id: true,
-      createAt: true,
-      name: true,
-      keyWords: true,
-      shortDescription: true,
-      linkName: true,
-      brefIllustration: true,
-    },
-  });
-  const graphicData = await prisma.project.findMany({
-    where: { published: true, type: "graphic" },
-    select: {
-      id: true,
-      createAt: true,
-      name: true,
-      keyWords: true,
-      shortDescription: true,
-      linkName: true,
-      brefIllustration: true,
-    },
-  });
+
   return {
     props: {
-      webPosts: makeSerializable(webData),
-      videoPosts: makeSerializable(videoData),
-      graphicPosts: makeSerializable(graphicData),
+      lastProjects: makeSerializable(lastProjects),
     },
   };
 };

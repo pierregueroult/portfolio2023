@@ -7,7 +7,7 @@ import NProgress from "nprogress";
 
 // ? import dependencies
 import Footer from "@/components/Footer/Footer";
-import "./_global.scss";
+import "@/styles/_global.scss";
 import Header from "@/components/Header/Header";
 
 // ? setup nprogress
@@ -31,7 +31,7 @@ function MainApp({ Component, pageProps, router }: AppProps) {
           site_name: "Pierre Gueroult - Développeur - pierregueroult.dev",
         }}
       />
-      <Header />
+      <Header currentPath={router.route} />
       <AnimatePresence
         initial={false}
         onExitComplete={() => window.scrollTo(0, 0)}

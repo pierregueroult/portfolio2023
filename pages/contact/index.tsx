@@ -6,7 +6,7 @@ const description = `Sont présents sur cette page toutes les informations néce
 export default function Contact(): JSX.Element {
   return (
     <Layout title={titre} description={description}>
-      <section className="first-section">contact</section>
+      <section>contact</section>
     </Layout>
   );
 }

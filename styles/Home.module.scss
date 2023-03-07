@@ -1,0 +1,112 @@
+@use "./variables";
+
+.container {
+  width: 100vw;
+  height: 550vh;
+}
+.section {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: variables.$background_color_main;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.variant {
+    background-color: variables.$background_color;
+  }
+}
+
+.horizontalContainer {
+  width: 200vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.sectionfirst {
+  &__title {
+    font-size: 6rem;
+    font-weight: 700;
+    color: darken(variables.$background_color_main, 10%);
+    position: relative;
+    font-family: var(--titleFont);
+    z-index: 1;
+    transform: scale(0.5);
+    animation: textGrow 300ms 2.5s ease-in-out forwards;
+
+    &::after {
+      content: "pierre gueroult.";
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #fff;
+      width: 110%;
+      overflow: hidden;
+      animation: titleText 2.5s linear forwards;
+      z-index: 2;
+      white-space: nowrap;
+    }
+  }
+}
+
+@keyframes titleText {
+  0% {
+    content: "";
+  }
+  6% {
+    content: "p";
+  }
+  12% {
+    content: "pi";
+  }
+  18% {
+    content: "pie";
+  }
+  24% {
+    content: "pier";
+  }
+  30% {
+    content: "pierr";
+  }
+  36% {
+    content: "pierre";
+  }
+  42% {
+    content: "pierre g";
+  }
+  48% {
+    content: "pierre gu";
+  }
+  54% {
+    content: "pierre gue";
+  }
+  60% {
+    content: "pierre guer";
+  }
+  66% {
+    content: "pierre guero";
+  }
+  72% {
+    content: "pierre guerou";
+  }
+  78% {
+    content: "pierre gueroul";
+  }
+  84% {
+    content: "pierre gueroult";
+  }
+  90% {
+    content: "pierre gueroult.";
+  }
+}
+
+@keyframes textGrow {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

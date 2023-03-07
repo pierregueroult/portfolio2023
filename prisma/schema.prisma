@@ -12,51 +12,90 @@ datasource db {
 
 model Project {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String @unique
-  linkName String @unique
-  createAt DateTime @default(now())
+  // name of the project (e.g. "Konbinul")
+  name String
+  // concatenated name of the project (e.g. "konbinul")
+  concatenatedName String @unique
+  // date of creation of the project (e.g. "2020-10-10")
+  createdAt DateTime @default(now())
+  // used to class the project (e.g. "web")
   type String
-  shortDescription String
-  fullContent String
-  comments Comment[]
-  worker Worker[]
-  keyWords String[]
-  published Boolean
-  brefIllustration String
-  mainIllustration String
-  documentationLink String
-}
-
-model Comment {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  content String
-  Project Project? @relation(fields: [projectId], references: [id])
-  projectId String? @db.ObjectId
-  Logos Logos? @relation(fields: [logosId], references: [id])
-  logosId String? @db.ObjectId
+  // description of the project in a few lines
+  description String
+  // json stored content of the project
+  content Json?
+  // banner for the project page (url)
+  banner String
+  // illustration for the project page (url)
+  illustration String
+  // keywords of the project (e.g. ["SAE104", "vidéo", "web"])
+  keywords String[]
+  // link to the documentation of the project (url)
+  documentation String
+  // link to the results of the project (url) (e.g. "https://youtube.com/..." or website link)
+  asset String
+  // all contributors of the project (foreign table)
+  workers Worker[]
+  // boolean to know if the project is visible or not
+  visible Boolean @default(false)
+  // color of the project (e.g. "#FF0000")
+  color String @default("4169e1")
 }
 
 model Worker {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  // foreign reference to the project
   Project Project @relation(fields: [projectId], references: [id])
+  // foreign key to the project
   projectId String @db.ObjectId
-  fullName String
+  // name of the worker (e.g. "Alexandre B.")
+  name String
+  // image or illustration of the worker (url)
+  image String?
+  // description of the actions of the worker in the project in a few lines
+  description String
+  // role of the worker in the project (e.g. "Développeur")
   role String
-  image Photo[]
-}
-
-type Photo {
-  height Int
-  width Int
-  url String
+  // link to the worker's website (url)
+  link String
 }
 
 model Logos {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  // name of the brand / project (e.g. "Konbinul")
   name String
-  image Photo[]
-  shortDescription String
+  // image of the brand / project (url list)
+  image String[]
+  // description of the brand / project in a few words
+  description String
+  // creation date of the brand / project (e.g. "2020-10-10")
   createdAt DateTime @default(now())
-  comments Comment[]
-  keyWords String[]
+  // keywords of the brand / project (e.g. ["SAE104", "vidéo", "web"])
+  keywords String[]
+}
+
+model Skills {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  // name of the skill (e.g. "Python")
+  name String @unique
+  // icon of the skill (url)
+  icon String
+  // category of the skill (e.g. "Langage de programmation")
+  category String
+  // dominant color of the icon (e.g. "#FF0000")
+  color String
+}
+
+model Jobs {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  // name of the job (e.g. "Développeur")
+  name String @unique
+  // company of the job (e.g. "Konbinul")
+  company String
+  // date of beginning of the job (e.g. "2020-10-10")
+  beginAt DateTime
+  // date of end of the job (e.g. "2020-10-10")
+  endAt DateTime?
+  // link to the job's website (url)
+  link String
 }

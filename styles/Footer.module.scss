@@ -1,9 +1,9 @@
-@use "../../pages/variables";
+@use "./variables";
 
 .footer {
   width: 100vw;
   min-height: variables.$footer_height;
-  background-color: var(--backgroundColor);
+  background-color: variables.$background_color;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,9 +11,13 @@
   gap: 1rem;
 }
 
+.hidden {
+  display: none;
+}
+
 .text {
   font-family: var(--titleFont);
-  color: var(--textColor);
+  color: variables.$font_color;
   font-size: 1.1rem;
   user-select: none;
   font-weight: 400;
@@ -25,7 +29,7 @@
 }
 
 .heartActive {
-  color: variables.$color1-light;
+  color: variables.$accent_color;
 }
 
 .socialMedia {
@@ -34,7 +38,7 @@
   gap: 1rem;
 
   a {
-    color: var(--textColor);
+    color: variables.$font_color;
     transition: color 200ms ease-in-out;
     position: relative;
     svg {
@@ -50,24 +54,10 @@
       left: 0;
       border-radius: 2px;
       transition: background-color 200ms ease-in-out;
+      background-color: variables.$accent_color;
     }
     &:hover::after {
       background-color: var(--textColor) !important;
-    }
-  }
-}
-
-.socialMediaChild {
-  $colors: (
-    1: variables.$color1-light,
-    2: variables.$color2-light,
-    3: variables.$color3-light,
-    4: variables.$color4-light,
-  );
-
-  @for $i from 1 through 4 {
-    &:nth-child(#{$i}) a::after {
-      background-color: map-get($colors, $i);
     }
   }
 }

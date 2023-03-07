@@ -1,4 +1,4 @@
-@use "../../pages/variables";
+@use "./variables";
 
 .allProjects {
   margin-top: calc(#{variables.$header_height} + 2rem);

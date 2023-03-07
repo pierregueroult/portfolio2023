@@ -1,0 +1,14 @@
+$background_color: #25274d;
+$background_color_main: lighten($background_color, 10%);
+$font_color: #ffffff;
+$font_color_main: #ffffff;
+$accent_color: #2e9cca;
+
+$footer_height: 250px;
+$header_height: 90px;
+
+.object {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}

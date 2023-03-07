@@ -2,6 +2,7 @@
 
 // ? modules import
 import { WebsiteCarbonBadge } from "react-websitecarbon-badge";
+import { useRouter } from "next/router";
 
 // ? icon handling import
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,8 +15,9 @@ import {
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 // ? dependencies
-import styles from "./Footer.module.scss";
+import styles from "@/styles/Footer.module.scss";
 import { titleFont } from "@/lib/fontHandling";
+import { variantsPages } from "@/lib/layoutVariants";
 
 // ? array of social media links
 const socialMedias = [
@@ -42,8 +44,14 @@ const socialMedias = [
 ];
 
 function Footer() {
+  const router = useRouter();
+
   return (
-    <footer className={`${styles.footer} ${titleFont.variable}`}>
+    <footer
+      className={`${styles.footer} ${titleFont.variable} ${
+        variantsPages.includes(router.pathname) ? styles.hidden : ""
+      }`}
+    >
       <ul className={styles.socialMedia}>
         {socialMedias.map(({ Icon, url, name }, i) => (
           <li key={i} className={styles.socialMediaChild}>
