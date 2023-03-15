@@ -33,7 +33,7 @@ model Project {
   // link to the documentation of the project (url)
   documentation String
   // link to the results of the project (url) (e.g. "https://youtube.com/..." or website link)
-  asset String
+  asset String?
   // all contributors of the project (foreign table)
   workers Worker[]
   // boolean to know if the project is visible or not

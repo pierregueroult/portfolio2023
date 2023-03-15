@@ -4,7 +4,7 @@ class MainDocument extends Document {
   render() {
     return (
       <Html lang="fr" dir="ltr">
-        <Head>{/* // TODO: ajouter google manager et autres scripts */}</Head>
+        <Head />
         <body>
           <Main />
           <NextScript />

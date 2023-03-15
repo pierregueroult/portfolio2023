@@ -60,12 +60,14 @@ export const ProjectBanner = ({
           <h3>{name}</h3>
           <h4>
             {type === "video"
-              ? "Project Vidéo"
+              ? "Projet vidéo"
               : type === "photo"
-              ? "Project Photo"
+              ? "Projet de photographie"
               : type === "web"
-              ? "Project Web"
-              : "Project Autre"}
+              ? "Projet Web"
+              : type === "graphism"
+              ? "Projet de graphisme"
+              : "Autre Projet"}
           </h4>
         </div>
         <div className={styles.banner__callToAction}>

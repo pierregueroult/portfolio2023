@@ -135,6 +135,7 @@ export default function Project({ isValid, data, colors }: Props): JSX.Element {
           style={{
             backgroundImage: `url("${data.banner}")`,
             backgroundPositionY: `top ${scrollStep / 5}px`,
+            backgroundPositionX: "center 50%",
           }}
           className={styles.introductionImage}
         ></div>
@@ -159,11 +160,19 @@ export default function Project({ isValid, data, colors }: Props): JSX.Element {
           </ul>
           <p className={styles.descriptionText}>{data.description}</p>
           {data.type === "video" ? (
-            <button className={styles.descriptionButton} onClick={handleClick}>
+            <button
+              className={styles.descriptionButton}
+              onClick={handleClick}
+              aria-label="button"
+            >
               Voir la vidéo
             </button>
           ) : data.type == "website" ? (
-            <button className={styles.descriptionButton} onClick={handleClick}>
+            <button
+              className={styles.descriptionButton}
+              onClick={handleClick}
+              aria-label="button"
+            >
               Voir le site
             </button>
           ) : (
@@ -171,25 +180,31 @@ export default function Project({ isValid, data, colors }: Props): JSX.Element {
           )}
         </article>
       </section>
-      <section className={`${styles.gap} project_section`}>
-        <div
-          className={styles.gapImage}
-          style={{
-            backgroundImage: `url("${data.banner}")`,
-            backgroundPositionY: `top calc(${scrollStep / 5}px - 40vw)`,
-          }}
-        ></div>
-      </section>
-      <section className={`${styles.members} project_section`}>
-        <h2 className={styles.membersTitle}>
-          Les membres de l&apos;équipe du projet :
-        </h2>
-        {data.workers ? (
-          <WorkersSection workers={data.workers} />
-        ) : (
-          <p>Aucun membre d&apos;équipe trouvé !</p>
-        )}
-      </section>
+      {data.workers && data.workers.length > 0 ? (
+        <>
+          <section className={`${styles.gap} project_section`}>
+            <div
+              className={styles.gapImage}
+              style={{
+                backgroundImage: `url("${data.banner}")`,
+                backgroundPositionY: `top calc(${scrollStep / 5}px - 40vw)`,
+              }}
+            ></div>
+          </section>
+          <section className={`${styles.members} project_section`}>
+            <h2 className={styles.membersTitle}>
+              Les membres de l&apos;équipe du projet :
+            </h2>
+            {data.workers ? (
+              <WorkersSection workers={data.workers} />
+            ) : (
+              <p>Aucun membre d&apos;équipe trouvé !</p>
+            )}
+          </section>
+        </>
+      ) : (
+        <Fragment />
+      )}
       <section className={`${styles.showmore} project_section`}>
         <div
           className={styles.showmoreImage}
@@ -208,7 +223,12 @@ export default function Project({ isValid, data, colors }: Props): JSX.Element {
           <Link className={styles.showmoreButton} href="/projects">
             Voir les autres projets
           </Link>
-          <a href={data.documentation} className={styles.showmoreButton}>
+          <a
+            href={data.documentation}
+            className={styles.showmoreButton}
+            target="_blank"
+            rel="noreferrer"
+          >
             Voir la documentation
           </a>
         </nav>
@@ -228,7 +248,9 @@ export default function Project({ isValid, data, colors }: Props): JSX.Element {
             : styles.fullContentNotVisible
         }`}
       >
-        {fullContent !== null && fullContentIsShown === true ? (
+        {fullContent !== null &&
+        fullContentIsShown === true &&
+        fullContent.data !== undefined ? (
           <Fragment>
             {fullContent.data.map((content, index) => {
               const TextComponent = (

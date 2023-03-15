@@ -13,6 +13,7 @@
   background-repeat: no-repeat;
   background-color: var(--accentColor);
   background-position-y: top 0px;
+  background-position-x: center;
 }
 
 .introductionTitle {
@@ -37,6 +38,8 @@
 
 .descriptionImage {
   object-fit: cover;
+  width: auto;
+  max-width: 30vw;
 }
 
 .descriptionTitle {

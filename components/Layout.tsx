@@ -6,8 +6,6 @@ import { ReactNode } from "react";
 import { motion } from "framer-motion";
 // ? import other files
 import { titleFont, textFont, codeFont } from "@/lib/fontHandling";
-import Head from "next/head";
-import HeadComponent from "@/components/Head";
 
 // ? some type and interface
 type Props = {
@@ -52,11 +50,6 @@ function Layout({
           siteName: title,
         }}
       />
-      <Head>
-        <HeadComponent
-          canonical={canonical ? canonical : "https://pierregueroult.dev"}
-        />
-      </Head>
       <motion.main
         initial="hide"
         animate="show"
