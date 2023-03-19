@@ -20,6 +20,37 @@
 .completeHidden {
   opacity: 0;
   animation: 0ms 300ms removeDisplay forwards step-end;
+  width: 0 !important;
+}
+
+.moreLinkOpen {
+  opacity: 0;
+  width: 0 !important;
+}
+
+.isVariant {
+  word-wrap: none;
+  white-space: nowrap;
+  width: max-content !important;
+  position: relative;
+
+  a {
+    font-size: 2rem !important;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 16px;
+    width: 0;
+    height: 3px;
+    background-color: var(--accentColor);
+    transition: width 400ms ease-in-out;
+  }
+  &:hover::before {
+    width: 100%;
+  }
 }
 
 .title {

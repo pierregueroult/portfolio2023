@@ -1,12 +1,12 @@
 //  ! This file is used to import fonts from Google Fonts and local fonts
 
 // ? import modules
-import { Roboto, Lalezar } from "@next/font/google";
+import { Roboto, Lalezar, Montserrat } from "@next/font/google";
 import localFont from "@next/font/local";
 
 // ? text font is Roboto
-export const textFont = Roboto({
-  weight: "500",
+export const textFont = Montserrat({
+  // weight: "500",
   subsets: ["latin"],
   variable: "--textFont",
 });

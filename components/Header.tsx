@@ -6,7 +6,6 @@ import { LayoutGroup, motion } from "framer-motion";
 
 // ? import dependencies
 import styles from "@/styles/Header.module.scss";
-import Logo from "../Logo";
 import { useRouter } from "next/router";
 import { titleFont, textFont } from "@/lib/fontHandling";
 import { variantsPages, variantsParents } from "@/lib/layoutVariants";
@@ -61,31 +60,53 @@ export default function Header(props: Props) {
         <h2 className={styles.title}>pierre gueroult.</h2>
       </Link>
       <LayoutGroup>
-        <nav
-          className={`${styles.nav} ${
-            variantsParents.some((variant) =>
-              props.currentPath.startsWith(variant)
-            )
-              ? styles.completeHidden
-              : ""
-          }`}
-        >
-          <ul className={styles.links}>
-            {routes.map(({ name, link }, i) => (
-              <li key={i}>
-                <Link href={link} className={styles.link} aria-label={name}>
-                  {name}
-                  {isActiveLink(router.pathname, link) && (
-                    <motion.div
-                      layoutId="navigation-underline"
-                      className={styles.linkIsActive}
-                      animate
-                    />
-                  )}
+        <nav className={`${styles.nav}`}>
+          {props.currentPath === "/" ? (
+            <></>
+          ) : (
+            <ul className={styles.links}>
+              {routes.map(({ name, link }, i) => (
+                <li
+                  key={i}
+                  className={` ${
+                    variantsParents.some((variant) =>
+                      props.currentPath.startsWith(variant)
+                    )
+                      ? styles.completeHidden
+                      : ""
+                  }`}
+                >
+                  <Link href={link} className={styles.link} aria-label={name}>
+                    {name}
+                    {isActiveLink(router.pathname, link) && (
+                      <motion.div
+                        layoutId="navigation-underline"
+                        className={styles.linkIsActive}
+                        animate
+                      />
+                    )}
+                  </Link>
+                </li>
+              ))}
+              <li
+                className={`${
+                  variantsParents.some((variant) =>
+                    props.currentPath.startsWith(variant)
+                  )
+                    ? styles.isVariant
+                    : styles.moreLinkOpen
+                }`}
+              >
+                <Link
+                  href={"/projects"}
+                  className={styles.link}
+                  aria-label={"Projets"}
+                >
+                  Retour aux projets
                 </Link>
               </li>
-            ))}
-          </ul>
+            </ul>
+          )}
         </nav>
       </LayoutGroup>
     </header>

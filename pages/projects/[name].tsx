@@ -1,19 +1,21 @@
 import Error from "next/error";
 import Image from "next/image";
-import Layout from "@/components/Layout";
-import { makeSerializable } from "@/lib/makeSerializable";
-import prisma from "@/lib/prisma";
-import { GetServerSideProps } from "next";
-import styles from "@/styles/ProjectSlug.module.scss";
 import { Fragment, useEffect, useState } from "react";
-import getContrastedColor from "@/lib/getContrastedColor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import getContrastedColor from "@/lib/getContrastedColor";
 import {
   faChevronRight,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import axios from "axios";
+import { GetServerSideProps } from "next";
+
+import styles from "@/styles/ProjectSlug.module.scss";
+import Layout from "@/components/Layout";
+import { makeSerializable } from "@/lib/makeSerializable";
+import prisma from "@/lib/prisma";
+import { Avatar } from "@readyplayerme/visage";
 
 export type CompleteProjectType = {
   id: string;
@@ -366,30 +368,45 @@ function WorkersSection(props: WorkersSectionProps) {
             <h4 className={styles.memberRole}>{worker.role}</h4>
             <p className={styles.memberText}>{worker.description}</p>
 
-            <a
-              target={"_blank"}
-              rel="noreferrer"
-              href={worker.link}
-              className={`${styles.memberLink} ${
-                worker.link === "https://pierregueroult.dev"
-                  ? styles.memberLinkHidden
-                  : ""
-              }`}
-            >
-              Voir son site
-            </a>
+            {worker.link !== "" && (
+              <a
+                target={"_blank"}
+                rel="noreferrer"
+                href={worker.link}
+                className={`${styles.memberLink} ${
+                  worker.link === "https://pierregueroult.dev"
+                    ? styles.memberLinkHidden
+                    : ""
+                }`}
+              >
+                Voir son site
+              </a>
+            )}
           </div>
           <div className={styles.memberImageContainer}>
             {worker.image ? (
-              <Image
-                src={worker.image}
-                alt={`${worker.name} illustration`}
-                width={200}
-                height={450}
-                className={styles.memberImage}
-                quality={100}
-                unoptimized={true}
-              />
+              worker.image.endsWith(".glb") ? (
+                <Avatar
+                  modelSrc={worker.image}
+                  animationSrc={
+                    "https://data.pierregueroult.dev/avatars/male-idle.glb"
+                  }
+                  className={styles.memberImage}
+                  scale={0.26}
+                  cameraTarget={0.23}
+                  cameraInitialDistance={0.2}
+                />
+              ) : (
+                <Image
+                  src={worker.image}
+                  alt={`${worker.name} illustration`}
+                  width={200}
+                  height={450}
+                  className={styles.memberImage}
+                  quality={100}
+                  unoptimized={true}
+                />
+              )
             ) : (
               <div className={styles.memberImagePlaceholder}></div>
             )}

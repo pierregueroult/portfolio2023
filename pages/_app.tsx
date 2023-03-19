@@ -6,9 +6,10 @@ import NProgress from "nprogress";
 import Script from "next/script";
 
 // ? import dependencies
-import Footer from "@/components/Footer/Footer";
+import Footer from "@/components/Footer";
 import "@/styles/_global.scss";
-import Header from "@/components/Header/Header";
+import Header from "@/components/Header";
+import { useEffect, useState } from "react";
 
 // ? setup nprogress
 Router.events.on("routeChangeStart", () => NProgress.start());

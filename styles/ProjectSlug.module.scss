@@ -119,6 +119,19 @@
   font-family: var(--titleFont);
 }
 
+.memberImageContainer {
+  min-height: 500px;
+  max-width: 15vw !important ;
+
+  div {
+    height: 500px !important;
+  }
+  canvas {
+    height: 100% !important;
+    cursor: grab;
+  }
+}
+
 .memberImage {
   object-fit: cover;
 }
@@ -181,8 +194,7 @@
 
 .memberNotVisible {
   opacity: 0;
-
-  z-index: 3;
+  pointer-events: none;
 
   img {
     transform: scale(0.1) rotate(20deg);

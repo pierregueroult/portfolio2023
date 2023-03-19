@@ -1,11 +1,9 @@
 import Layout from "@/components/Layout";
-import { NextApiResponse } from "next";
 import Link from "next/link";
 import styles from "@/styles/error.module.scss";
-import { useEffect } from "react";
 
-const title = "";
-const description = "";
+const title = "404";
+const description = "La page que vous cherchez n'existe pas !";
 
 export default function Error() {
   return (
