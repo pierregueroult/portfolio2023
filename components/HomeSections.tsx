@@ -4,7 +4,6 @@ import Link from "next/link";
 import upperCases from "@/lib/upperCases";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import axios from "axios";
 import { HomeProject } from "@/pages";
 import Marquee from "react-fast-marquee";
 
@@ -114,7 +113,9 @@ export const HomeSectionThird = (props: HomeSectionThirdProps) => {
   return (
     <>
       <div className={styles.sectionthird__text}>
-        <h2>Mes projets</h2>
+        <h2>
+          <Link href={"/projects"}>Mes projets</Link>
+        </h2>
       </div>
       <div className={styles.sectionthird__display}>
         {props.principalProject && (

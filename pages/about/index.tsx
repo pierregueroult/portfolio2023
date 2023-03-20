@@ -1,12 +1,13 @@
 import Layout from "@/components/Layout";
 import { makeSerializable } from "@/lib/makeSerializable";
 import prisma from "@/lib/prisma";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import Image from "next/image";
 import { useEffect } from "react";
 import styles from "@/styles/About.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { Avatar } from "@readyplayerme/visage";
 
 const titre = "Mes projets";
 const description = `Retrouvez sur cette page tous les projets réalisés par Pierre Guéroult !`;
@@ -173,13 +174,17 @@ export default function About({ resultSkills, types, resultJobs }: AboutProps) {
           </div>
         </div>
         <div className={styles.about__imageContainer}>
-          <Image
-            alt="Une photo de moi"
-            src="https://data.pierregueroult.dev/avatars/pierregueroult.png"
-            width={100}
-            height={500}
+          <Avatar
+            modelSrc={
+              "https://data.pierregueroult.dev/avatars/pierregueroult.glb"
+            }
+            animationSrc={
+              "https://data.pierregueroult.dev/avatars/male-idle.glb"
+            }
             className={styles.about__image}
-            unoptimized={true}
+            scale={0.26}
+            cameraTarget={0.23}
+            cameraInitialDistance={0.2}
           />
         </div>
       </section>
@@ -260,7 +265,7 @@ export default function About({ resultSkills, types, resultJobs }: AboutProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const skills = await prisma.skills.findMany({
     select: {
       name: true,

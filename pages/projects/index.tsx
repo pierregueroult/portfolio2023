@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import prisma from "@/lib/prisma";
 import { makeSerializable } from "@/lib/makeSerializable";
 import styles from "@/styles/Project.module.scss";
@@ -7,11 +7,12 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 const titre = "Mes projets";
 const description = `Retrouvez sur cette page les projets réalisés par Pierre Guéroult trié par catégorie !`;
 
-type projectType = {
+export type projectType = {
   concatenatedName: string;
   name: string;
   type: string;
@@ -20,8 +21,16 @@ type projectType = {
   color: string;
 };
 
+export type logoType = {
+  name: string;
+  mainImage: string;
+  description: string;
+  color: string;
+};
+
 type projectsProps = {
   lastProjects: projectType[];
+  lastLogos: logoType[];
 };
 
 const Projects = (props: projectsProps) => {
@@ -33,6 +42,29 @@ const Projects = (props: projectsProps) => {
           return <ProjectBanner key={i} {...project} />;
         })}
       </ul>
+      <Link href={"/projects/all"} className={styles.text}>
+        Voir tous les projets
+        <FontAwesomeIcon icon={faArrowRight} />
+      </Link>
+      {props.lastLogos.length >= 7 ? (
+        <>
+          <h2 className={styles.title}>Mon Logofolio</h2>
+          <section className={styles.logofolio}>
+            {props.lastLogos.map((logo, i) => (
+              <article key={i}>
+                <Image
+                  src={logo.mainImage}
+                  alt={logo.name}
+                  width={300}
+                  height={300}
+                />
+              </article>
+            ))}
+          </section>
+        </>
+      ) : (
+        <h2 className={styles.title}>Contenu à venir ...</h2>
+      )}
     </Layout>
   );
 };
@@ -78,15 +110,15 @@ export const ProjectBanner = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const lastProjects = await prisma.project.findMany({
     where: {
       visible: true,
     },
     orderBy: {
-      createdAt: "asc",
+      createdAt: "desc",
     },
-    take: 6,
+    take: 4,
     select: {
       concatenatedName: true,
       name: true,
@@ -97,9 +129,22 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   });
 
+  const lastLogos = await prisma.logos.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 14,
+    select: {
+      name: true,
+      mainImage: true,
+      description: true,
+      color: true,
+    },
+  });
   return {
     props: {
       lastProjects: makeSerializable(lastProjects),
+      lastLogos: makeSerializable(lastLogos),
     },
   };
 };

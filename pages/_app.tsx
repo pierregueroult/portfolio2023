@@ -4,6 +4,7 @@ import { DefaultSeo } from "next-seo";
 import { AnimatePresence } from "framer-motion";
 import NProgress from "nprogress";
 import Script from "next/script";
+import Head from "next/head";
 
 // ? import dependencies
 import Footer from "@/components/Footer";
@@ -32,6 +33,16 @@ function MainApp({ Component, pageProps, router }: AppProps) {
           site_name: "Pierre Gueroult - Développeur - pierregueroult.dev",
         }}
       />
+      <Head>
+        <link
+          rel="prefetch"
+          href="https://data.pierregueroult.dev/avatars/pierregueroult.glb"
+        />
+        <link
+          rel="prefetch"
+          href="https://data.pierregueroult.dev/avatars/male-idle.glb"
+        />
+      </Head>
       <Script
         async
         strategy="afterInteractive"

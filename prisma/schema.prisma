@@ -64,14 +64,18 @@ model Logos {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   // name of the brand / project (e.g. "Konbinul")
   name String
-  // image of the brand / project (url list)
-  image String[]
+  // image
+  mainImage String
+  // images of the brand / project (url list)
+  images Json[]
   // description of the brand / project in a few words
   description String
   // creation date of the brand / project (e.g. "2020-10-10")
   createdAt DateTime @default(now())
   // keywords of the brand / project (e.g. ["SAE104", "vidéo", "web"])
   keywords String[]
+  // background color of the logo (e.g. "#FF0000")
+  color String
 }
 
 model Skills {

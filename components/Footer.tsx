@@ -67,7 +67,10 @@ function Footer() {
         by Pierre Guéroult
       </h3>
       <WebsiteCarbonBadge
-        url="https://pierregueroult.dev"
+        url={
+          "https://pierregueroult.dev" +
+          router.pathname.replace(/\[[^()]*\]/g, "")
+        }
         dark={true}
         lang="fr"
       />

@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import axios from "axios";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 
 import styles from "@/styles/ProjectSlug.module.scss";
 import Layout from "@/components/Layout";
@@ -417,9 +417,9 @@ function WorkersSection(props: WorkersSectionProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   // get the project name from the query
-  const { name } = query;
+  const { name } = context.params as { name: string };
   // if the name is a string, we can search for it in the database
   if (typeof name === "string") {
     // we search for the project in the database
@@ -462,4 +462,20 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       },
     };
   }
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // we get all the projects in the database
+  const projects = await prisma.project.findMany({
+    select: { concatenatedName: true },
+  });
+  // we serialize the data
+  const serializedProjects = makeSerializable(projects);
+  // we return the paths
+  return {
+    paths: serializedProjects.map((project) => ({
+      params: { name: project.concatenatedName },
+    })),
+    fallback: false,
+  };
 };

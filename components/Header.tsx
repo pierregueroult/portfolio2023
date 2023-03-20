@@ -50,8 +50,11 @@ export default function Header(props: Props) {
       className={`header ${styles.header} ${textFont.variable} ${
         titleFont.variable
       } ${
-        variantsPages.includes(props.currentPath) ||
-        variantsParents.some((variant) => props.currentPath.startsWith(variant))
+        (variantsPages.includes(props.currentPath) ||
+          variantsParents.some((variant) =>
+            props.currentPath.startsWith(variant)
+          )) &&
+        props.currentPath !== "/projects/all"
           ? styles.translucent
           : ""
       }`}
@@ -68,10 +71,10 @@ export default function Header(props: Props) {
               {routes.map(({ name, link }, i) => (
                 <li
                   key={i}
-                  className={` ${
+                  className={`${
                     variantsParents.some((variant) =>
                       props.currentPath.startsWith(variant)
-                    )
+                    ) && props.currentPath !== "/projects/all"
                       ? styles.completeHidden
                       : ""
                   }`}
@@ -92,7 +95,7 @@ export default function Header(props: Props) {
                 className={`${
                   variantsParents.some((variant) =>
                     props.currentPath.startsWith(variant)
-                  )
+                  ) && props.currentPath !== "/projects/all"
                     ? styles.isVariant
                     : styles.moreLinkOpen
                 }`}
