@@ -12,7 +12,6 @@ import {
 import { GetStaticProps } from "next";
 import prisma from "@/lib/prisma";
 import { makeSerializable } from "@/lib/makeSerializable";
-import getContrastedColor from "@/lib/getContrastedColor";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +20,6 @@ const titre = "Accueil";
 const description = `Bienvenue sur mon portfolio | Je suis apprenti 
   développeur web, vous trouverez ici mes élements de portfolio ainsi
    que tous mes projets.`;
-const currentPrincipalProject = "konbinul";
 
 // ? type for Home Component
 export type HomeProject = {
@@ -35,51 +33,47 @@ export type HomeProject = {
   keywords?: string[];
 };
 type HomeProps = {
-  featuredProjects: HomeProject[];
-  principalProject: HomeProject;
+  webProjects: HomeProject[];
 };
 
 function Home(props: HomeProps) {
-  // ? gsap scroll useeffect
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      let sections = gsap.utils.toArray(".horizontalContainer > .horizontal");
+  // // ? gsap scroll useeffect
+  // useEffect(() => {
+  //   let ctx = gsap.context(() => {
+  //     let sections = gsap.utils.toArray(".horizontalContainer > .horizontal");
 
-      gsap.to(sections, {
-        xPercent: -100 * (sections.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".horizontalContainer",
-          pin: true,
-          scrub: 0.7,
-          end: "+=1300",
-        },
-      });
-    }, document.body);
-    return () => ctx.revert();
-  }, []);
+  //     gsap.to(sections, {
+  //       xPercent: -100 * (sections.length - 1),
+  //       ease: "none",
+  //       scrollTrigger: {
+  //         trigger: ".horizontalContainer",
+  //         pin: true,
+  //         scrub: 0.7,
+  //         end: "+=1300",
+  //       },
+  //     });
+  //   }, document.body);
+  //   return () => ctx.revert();
+  // }, []);
 
   return (
     <Layout title={titre} description={description}>
       <section className={`${styles.section} ${styles.sectionfirst}`}>
         <HomeSectionFirst />
       </section>
-      <div className={`${styles.horizontalContainer} horizontalContainer`}>
-        <section
-          className={`${styles.section} ${styles.variant} horizontal ${styles.sectionsecond}`}
-        >
-          <HomeSectionSecond />
-        </section>
-        <section
-          className={`${styles.section} horizontal ${styles.sectionthird}`}
-        >
-          <HomeSectionThird
-            principalProject={props.principalProject}
-            featuredProjects={props.featuredProjects}
-          />
-        </section>
-      </div>
-      <section className={`${styles.section} ${styles.variant} horizontal`}>
+      <section
+        className={`${styles.section} ${styles.variant} ${styles.sectionsecond}`}
+      >
+        <HomeSectionSecond webProjects={props.webProjects} />
+      </section>
+      <section
+        className={`${styles.section} horizontal ${styles.sectionthird}`}
+      >
+        <HomeSectionThird />
+      </section>
+      <section
+        className={`${styles.section} ${styles.variant} ${styles.sectionforth} sectionforth`}
+      >
         <HomeSectionFourth />
       </section>
     </Layout>
@@ -99,44 +93,20 @@ type projectType = {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const featuredProjects: projectType[] = await prisma.project.findMany({
+  const webProjects = await prisma.project.findMany({
     where: {
+      type: "web",
       visible: true,
     },
+    take: 6,
     orderBy: {
       createdAt: "desc",
     },
-    take: 4,
-    select: {
-      concatenatedName: true,
-      name: true,
-      type: true,
-      banner: true,
-      color: true,
-      createdAt: true,
-    },
   });
-  const principalProject: projectType | null = await prisma.project.findUnique({
-    where: {
-      concatenatedName: currentPrincipalProject,
-    },
-    select: {
-      concatenatedName: true,
-      name: true,
-      type: true,
-      banner: true,
-      color: true,
-      createdAt: true,
-      keywords: true,
-    },
-  });
-  featuredProjects.forEach((element) => {
-    element.contrastedColor = getContrastedColor(element.color);
-  });
+
   return {
     props: {
-      featuredProjects: makeSerializable(featuredProjects),
-      principalProject: makeSerializable(principalProject),
+      webProjects: makeSerializable(webProjects),
     },
   };
 };

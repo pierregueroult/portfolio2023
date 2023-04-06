@@ -22,8 +22,10 @@ model Project {
   type String
   // description of the project in a few lines
   description String
-  // json stored content of the project
-  content Json?
+  // history of the project in a few paragraphs
+  contentHistory String?
+  // list of the images of the project (url list)
+  contentImages String[]
   // banner for the project page (url)
   banner String
   // illustration for the project page (url)
@@ -48,16 +50,27 @@ model Worker {
   Project Project @relation(fields: [projectId], references: [id])
   // foreign key to the project
   projectId String @db.ObjectId
-  // name of the worker (e.g. "Alexandre B.")
-  name String
-  // image or illustration of the worker (url)
-  image String?
   // description of the actions of the worker in the project in a few lines
   description String
   // role of the worker in the project (e.g. "Développeur")
   role String
+  // all data of the worker (foreign table)
+  data WorkerData @relation(fields: [dataId], references: [id])
+  // foreign key to the data of the worker
+  dataId String @db.ObjectId
+}
+
+model WorkerData {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  // foreign reference to the worker 
+  // name of the worker (e.g. "Alexandre B.")
+  name String
+  // image or illustration of the worker (url)
+  image String?
   // link to the worker's website (url)
   link String
+
+  workers Worker[]
 }
 
 model Logos {
@@ -102,4 +115,14 @@ model Jobs {
   endAt DateTime?
   // link to the job's website (url)
   link String
+}
+
+model Message {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  // name of the sender (e.g. "Alexandre B.")
+  name String
+  // email of the sender (e.g. "Alexandre.B@...")
+  email String
+  // message of the sender
+  message String
 }

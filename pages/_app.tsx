@@ -33,16 +33,6 @@ function MainApp({ Component, pageProps, router }: AppProps) {
           site_name: "Pierre Gueroult - Développeur - pierregueroult.dev",
         }}
       />
-      <Head>
-        <link
-          rel="prefetch"
-          href="https://data.pierregueroult.dev/avatars/pierregueroult.glb"
-        />
-        <link
-          rel="prefetch"
-          href="https://data.pierregueroult.dev/avatars/male-idle.glb"
-        />
-      </Head>
       <Script
         async
         strategy="afterInteractive"

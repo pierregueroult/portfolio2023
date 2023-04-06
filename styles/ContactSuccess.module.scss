@@ -1,0 +1,47 @@
+@use "./variables";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  $gap: variables.$header_height + variables.$footer_height;
+  height: calc(100vh - $gap);
+  margin-top: variables.$header_height;
+  gap: 2rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  font-family: var(--titleFont);
+  color: variables.$font_color;
+}
+
+.text {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  font-family: var(--textFont);
+  color: variables.$font_color;
+  width: 90vw;
+  max-width: 1000px;
+}
+
+.link {
+  width: fit-content;
+  font-size: 1.8rem;
+  font-weight: 400;
+
+  font-family: var(--textFont);
+  color: variables.$font_color;
+  text-decoration: none;
+  border-bottom: 1px solid variables.$font_color;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: variables.$font_color;
+    border-bottom: 1px solid variables.$accent_color;
+  }
+}

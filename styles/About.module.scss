@@ -19,14 +19,6 @@
     color: variables.$font_color;
     font-family: var(--titleFont);
     opacity: 0;
-    transform: translate(-20px);
-    transition: opacity 0.2s ease-in-out, transform 0.4s step-end;
-
-    &__active {
-      opacity: 1;
-      transform: none;
-      transition: opacity 0.3s ease-in-out, transform 0.6s ease-in-out;
-    }
   }
 
   &__list {
@@ -50,11 +42,6 @@
     opacity: 0;
     transform: translateX(-20px);
     transition: opacity 0.3s ease-in-out, transform 0.6s ease-in-out;
-
-    &__active {
-      opacity: 1;
-      transform: translateX(0);
-    }
 
     &::after {
       content: "";
@@ -172,14 +159,9 @@
 
   &__textContainer {
     width: 30vw;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 1s ease-in-out, transform 0.4s ease-in-out;
     transform: translateX(-20px);
-
-    &__active {
-      opacity: 1;
-      transform: translateX(0);
-    }
   }
 
   &__title {
@@ -212,15 +194,7 @@
       left: 15%;
       background-color: variables.$accent_color;
       z-index: -1;
-      transform: rotate(0deg) scale(0);
-      transition: transform 0.7s ease-in-out;
-      transform-origin: center center;
-    }
-
-    &__active {
-      &::before {
-        transform: rotate(10deg) scale(1);
-      }
+      transform: rotate(10deg) scale(1);
     }
   }
 
@@ -247,14 +221,6 @@
     color: variables.$font_color;
     font-family: var(--titleFont);
     opacity: 0;
-    transform: translate(-20px);
-    transition: opacity 0.2s ease-in-out, transform 0.4s step-end;
-
-    &__active {
-      opacity: 1;
-      transform: none;
-      transition: opacity 0.3s ease-in-out, transform 0.6s ease-in-out;
-    }
   }
 
   &__article {
@@ -278,21 +244,6 @@
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.2s ease-in-out, transform 0.4s step-end;
-    transform: translateX(-20px);
-    transition-delay: 0.2s;
-
-    &__active {
-      opacity: 1;
-      transform: none;
-      transition: opacity 0.3s ease-in-out, transform 0.6s ease-in-out;
-
-      @for $i from 1 through 10 {
-        &:nth-child(#{$i}n) {
-          transition-delay: 0.1s * $i;
-        }
-      }
-    }
   }
 
   &__container {
@@ -324,25 +275,18 @@
     word-break: keep-all;
     width: max-content;
     color: variables.$font_color;
+
+    max-width: 100%;
   }
 
   &__subtitle {
     font-size: 1.5rem;
     font-weight: 500;
-    margin-bottom: 1rem;
     width: 100%;
-    margin: 0 auto;
+    margin: 0 auto 1rem auto;
     font-family: var(--titleFont);
     color: variables.$font_color;
     opacity: 0;
-    transform: translate(-20px);
-    transition: opacity 0.2s ease-in-out, transform 0.4s step-end;
-
-    &__active {
-      opacity: 1;
-      transform: none;
-      transition: opacity 0.3s ease-in-out, transform 0.6s ease-in-out;
-    }
   }
 }
 

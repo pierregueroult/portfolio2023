@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      gap: 3rem;
+    "
+  >
+    <canvas
+      id="dessin"
+      width="800px"
+      height="500px"
+      style="background: #000000; box-shadow: 0px 0px 20px 30px #000000"
+    >
+    </canvas>
+    <h1 style="font-family: 'Courier New', Courier, monospace"></h1>
+    <script>
+      var canvas = document.getElementById("dessin");
+      var context = canvas.getContext("2d");
+
+      const ballRadius = 50;
+      const ballSpeed = 5;
+      const ballUpdateDelay = 1000 / 60;
+
+      var ballState = 0;
+      var ballPosY = canvas.height / 2;
+      var ballPosX = canvas.width / 2;
+      var ballMoveX = 0;
+      var currentColor = getRandomColor();
+
+      function initBall() {
+        drawBall();
+        setInterval(moveBall, ballUpdateDelay);
+      }
+
+      function getRandomColor() {
+        var number = Math.floor(Math.random() * 16777215).toString(16);
+        var color = `#${number.length == 5 ? number + "0" : number}`;
+        console.log(color);
+        return color;
+      }
+
+      function getRandomAngle(contraint = 0) {
+        if (contraint == 0) {
+          var signe = Math.random();
+          if (signe > 0.5) {
+            return Math.random() * ballSpeed;
+          } else {
+            return Math.random() * -ballSpeed;
+          }
+        } else if (contraint == 1) {
+          return Math.random() * ballSpeed;
+        } else if (contraint == 2) {
+          return Math.random() * -ballSpeed;
+        }
+      }
+
+      function moveBall() {
+        drawBall(ballPosY, ballPosX, "#000000");
+        if (ballPosY > canvas.height - ballRadius) {
+          ballState = 1;
+          ballMoveX = getRandomAngle(ballMoveX > 0 ? 1 : 2);
+          currentColor = getRandomColor();
+        } else if (ballPosY < 0 + ballRadius) {
+          ballState = 0;
+          ballMoveX = getRandomAngle(ballMoveX > 0 ? 1 : 2);
+          currentColor = getRandomColor();
+        }
+        if (ballPosX < 0 + ballRadius) {
+          ballMoveX = getRandomAngle(1);
+          currentColor = getRandomColor();
+        }
+        if (ballPosX > canvas.width - ballRadius) {
+          ballMoveX = getRandomAngle(2);
+          currentColor = getRandomColor();
+        }
+        if (ballState == 0) {
+          ballPosY += ballSpeed;
+        }
+        if (ballState == 1) {
+          ballPosY -= ballSpeed;
+        }
+        ballPosX += ballMoveX;
+        drawBall(ballPosY, ballPosX);
+      }
+
+      function drawBall(
+        y = canvas.height / 2,
+        x = canvas.width / 2,
+        color = currentColor
+      ) {
+        context.beginPath();
+        context.fillStyle = color;
+        context.arc(
+          x,
+          y,
+          color == "#000000" ? ballRadius - 1 : ballRadius,
+          0,
+          2 * Math.PI
+        );
+        context.closePath();
+        context.fill();
+      }
+
+      initBall();
+    </script>
+  </body>
+</html>

@@ -8,6 +8,10 @@ import styles from "@/styles/About.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Avatar } from "@readyplayerme/visage";
+import { gsap } from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const titre = "Mes projets";
 const description = `Retrouvez sur cette page tous les projets réalisés par Pierre Guéroult !`;
@@ -32,113 +36,82 @@ type resultType = {
 
 export default function About({ resultSkills, types, resultJobs }: AboutProps) {
   useEffect(() => {
-    const setupScrollMagic = async () => {
-      if (typeof window !== "undefined") {
-        const container = document.querySelectorAll(
-          `.${styles.skills__element}`
-        );
-        const titles = document.querySelectorAll(`.${styles.skills__subtitle}`);
-        const title = document.querySelector(`.${styles.skills__title}`);
-        const imageContainer = document.querySelector(
-          `.${styles.about__imageContainer}`
-        );
-        const textContainer = document.querySelector(
-          `.${styles.about__textContainer}`
-        );
-        const jobTitle = document.querySelector(`.${styles.jobs__title}`);
-        const jobElements = document.querySelectorAll(
-          `.${styles.jobs__element}`
-        );
+    const imageContainer = document.querySelector(
+      `.${styles.about__imageContainer}`
+    );
+    const textContainer = document.querySelector(
+      `.${styles.about__textContainer}`
+    );
+    const jobTitle = document.querySelector(`.${styles.jobs__title}`);
 
-        const ScrollMagic = (await import("scrollmagic")).default;
+    // ! Animations for the skill section
+    const elements = document.querySelectorAll(
+      `.${styles.skills__element}, .${styles.skills__subtitle}, .${styles.skills__title}`
+    );
 
-        const controller = new ScrollMagic.Controller();
+    ScrollTrigger.batch(elements, {
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          opacity: 1,
+          x: 0,
+          stagger: 0.1,
+        }),
+      onLeave: (batch) =>
+        gsap.to(batch, {
+          opacity: 0,
+          x: -20,
+          stagger: 0.1,
+        }),
+      onEnterBack: (batch) =>
+        gsap.to(batch, {
+          opacity: 1,
+          x: 0,
+          stagger: 0.1,
+        }),
+      onLeaveBack: (batch) =>
+        gsap.to(batch, {
+          opacity: 0,
+          x: -20,
+          stagger: 0.1,
+        }),
+      start: "top 90%",
+      end: "bottom 10%",
+    });
 
-        for (let i = 0; i < container.length; i++) {
-          const element = container[i];
-          new ScrollMagic.Scene({
-            triggerElement: element,
-            offset: 50,
-            triggerHook: 0.9,
-            reverse: true,
-          })
-            .setClassToggle(element, styles.skills__element__active)
-            .addTo(controller);
-        }
+    // ! Animations for the job section
 
-        for (let j = 0; j < titles.length; j++) {
-          const element = titles[j];
-          new ScrollMagic.Scene({
-            triggerElement: element,
-            offset: 50,
-            triggerHook: 0.9,
-            reverse: true,
-          })
-            .setClassToggle(element, styles.skills__subtitle__active)
-            .addTo(controller);
-        }
+    const elementsJob = document.querySelectorAll(
+      `.${styles.jobs__element}, .${styles.jobs__title}`
+    );
 
-        for (let i = 0; i < jobElements.length; i++) {
-          const element = jobElements[i];
-          new ScrollMagic.Scene({
-            triggerElement: element,
-            offset: 50,
-            triggerHook: 0.9,
-            reverse: true,
-          })
-            .setClassToggle(element, styles.jobs__element__active)
-            .addTo(controller);
-        }
-
-        if (jobTitle !== null) {
-          new ScrollMagic.Scene({
-            triggerElement: jobTitle,
-            offset: 50,
-            triggerHook: 0.9,
-            reverse: true,
-          })
-            .setClassToggle(jobTitle, styles.jobs__title__active)
-            .addTo(controller);
-        }
-
-        if (title !== null) {
-          new ScrollMagic.Scene({
-            triggerElement: title,
-            offset: 50,
-            triggerHook: 0.9,
-            reverse: true,
-          })
-            .setClassToggle(title, styles.skills__title__active)
-            .addTo(controller);
-        }
-
-        if (imageContainer !== null) {
-          new ScrollMagic.Scene({
-            triggerElement: imageContainer,
-            offset: 50,
-            triggerHook: 0.9,
-            reverse: true,
-          })
-            .setClassToggle(
-              imageContainer,
-              styles.about__imageContainer__active
-            )
-            .addTo(controller);
-        }
-
-        if (textContainer !== null) {
-          new ScrollMagic.Scene({
-            triggerElement: textContainer,
-            offset: 50,
-            triggerHook: 0.9,
-            reverse: true,
-          })
-            .setClassToggle(textContainer, styles.about__textContainer__active)
-            .addTo(controller);
-        }
-      }
-    };
-    setupScrollMagic();
+    ScrollTrigger.batch(elementsJob, {
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          opacity: 1,
+          x: 0,
+          stagger: 0.1,
+        }),
+      onLeave: (batch) =>
+        gsap.to(batch, {
+          opacity: 0,
+          x: -20,
+          stagger: 0.1,
+        }),
+      onEnterBack: (batch) =>
+        gsap.to(batch, {
+          opacity: 1,
+          x: 0,
+          stagger: 0.1,
+        }),
+      onLeaveBack: (batch) =>
+        gsap.to(batch, {
+          opacity: 0,
+          x: -20,
+          stagger: 0.1,
+        }),
+      start: "top 90%",
+      end: "bottom 10%",
+    });
   }, []);
 
   return (

@@ -9,6 +9,29 @@
   justify-content: center;
   flex-direction: column;
   gap: 1rem;
+
+  position: relative;
+  z-index: 1000;
+}
+
+.projectVariant {
+  background-color: var(--main);
+  color: var(--reverse);
+
+  li a,
+  h3,
+  p,
+  span {
+    color: var(--reverse) !important;
+  }
+
+  .socialMedia a::after {
+    background-color: var(--inverted);
+  }
+
+  .socialMedia a:hover::after {
+    background-color: var(--reverse) !important;
+  }
 }
 
 .hidden {

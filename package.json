@@ -42,7 +42,6 @@
     "rehype-parse": "^8.0.4",
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
-    "scrollmagic": "^2.0.8",
     "suspend-react": "^0.0.8",
     "three": "^0.150.1",
     "three-stdlib": "^2.21.8",

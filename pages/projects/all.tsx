@@ -5,6 +5,9 @@ import { makeSerializable } from "@/lib/makeSerializable";
 import { projectType, ProjectBanner } from ".";
 import { useState, useEffect } from "react";
 import styles from "@/styles/Project.module.scss";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 const title = "Tous mes projets";
 const description = "Vous trouverez sur cette page tous mes projets, triables.";
@@ -90,6 +93,16 @@ const AllProject = ({ projects }: allProjectProps) => {
     <Layout title={title} description={description}>
       <h1 className={styles.allProjects__title}>Tous mes projets : </h1>
       <section className={styles.allProjects__filter}>
+        <p>
+          <Link
+            href="/projects"
+            title="Retour aux projets"
+            className={styles.allProjects__back}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+            <span>Retour</span>
+          </Link>
+        </p>
         <p>
           <label htmlFor="type">Type de projet :</label>
           <select name="type" id="type" onChange={handleChangeType}>

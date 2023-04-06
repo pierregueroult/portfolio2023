@@ -1,21 +1,34 @@
 import Error from "next/error";
 import Image from "next/image";
-import { Fragment, useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState, Fragment } from "react";
 import getContrastedColor from "@/lib/getContrastedColor";
-import {
-  faChevronRight,
-  faChevronLeft,
-} from "@fortawesome/free-solid-svg-icons";
+
 import Link from "next/link";
-import axios from "axios";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 import styles from "@/styles/ProjectSlug.module.scss";
 import Layout from "@/components/Layout";
 import { makeSerializable } from "@/lib/makeSerializable";
+import MarkdownToHTML from "@/lib/convert";
 import prisma from "@/lib/prisma";
 import { Avatar } from "@readyplayerme/visage";
+
+import gsap from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import axios from "axios";
+import getInvertedColor from "@/lib/getInvertedColor";
+
+const maleAnimations = [
+  "https://data.pierregueroult.dev/avatars/male-idle.glb",
+  "https://data.pierregueroult.dev/avatars/hiphop.glb",
+];
+const femaleAnimations = [
+  "https://data.pierregueroult.dev/avatars/rumba.glb",
+  "https://data.pierregueroult.dev/avatars/taunt.glb",
+];
+const animations = [...maleAnimations, ...femaleAnimations];
+
+gsap.registerPlugin(ScrollTrigger);
 
 export type CompleteProjectType = {
   id: string;
@@ -35,15 +48,23 @@ export type CompleteProjectType = {
   illustration: string;
   keywords: string[];
   documentation: string;
+  contentHistory: string;
+  contentImages: string[];
   asset: string;
-  workers?: {
+  company: string;
+  workers?: WorkerType[];
+};
+
+type WorkerType = {
+  id: string;
+  description: string;
+  role: string;
+  data: {
     id: string;
     name: string;
-    role: string;
-    description: string;
-    image?: string;
+    image: string;
     link: string;
-  }[];
+  };
 };
 
 type Props = {
@@ -52,370 +73,286 @@ type Props = {
   colors?: {
     accent: string;
     contrasted: string;
+    inverted: string;
   };
 };
 
-export type ContentType = {
-  data: { content: string; image: { url: string; alt: string }[] }[];
-  conclusion: string;
-};
-
-export default function Project({ isValid, data, colors }: Props): JSX.Element {
-  // boolean state to know if the full content is shown
-  const [fullContentIsShown, setFullContentIsShown] = useState(false);
-  // state to store the full content
-  const [fullContent, setFullContent] = useState<ContentType | null>(null);
-  // state to store the error message
-  const [fullContentError, setFullContentError] = useState("");
-  // state to store the scroll step
-  const [scrollStep, setScrollStep] = useState(0);
-
-  // function to handle the click on the content button
-  // in order to get the full content and put it in the state or to show an error message
-  const handleContentClick = async () => {
-    // if the full content is not already shown
-    if (fullContent === null) {
-      // try to get the full content
-      try {
-        const response = await axios.get("/api/getProjectContent", {
-          params: { id: data?.id },
-        });
-        // update the state with the full content
-        setFullContent(response.data);
-        // update the state to show the full content
-        setFullContentIsShown(true);
-      } catch (error) {
-        // if an error occurs, update the state to show the error message
-        setFullContentError("Une erreur est survenue !");
-      }
-    } else {
-      // if the full content is already shown, update the state to show the error message
-      setFullContentError("Le contenu est déjà chargé !");
-    }
-  };
-
-  // function to handle the click on the asset button
-  const handleClick = () => {
-    window.open(data?.asset, "_blank");
-  };
-
+export default function Project(props: Props): JSX.Element {
   useEffect(() => {
-    // function to set the colors of the project in the css variables
-    const setColors = (accent: string, contrasted: string) => {
-      document.documentElement.style.setProperty("--accentColor", accent);
-      document.documentElement.style.setProperty(
-        "--contrastedColor",
-        contrasted
-      );
-    };
+    // we set the colors of the project in the css variables
+    document.body.style.setProperty("--main", props.colors?.accent || null);
+    document.body.style.setProperty(
+      "--reverse",
+      props.colors?.contrasted || null
+    );
+    document.body.style.setProperty(
+      "--inverted",
+      props.colors?.inverted || null
+    );
+  }, [props.colors]);
 
-    // if the colors are defined, set them
-    if (colors) {
-      setColors(colors.accent, colors.contrasted);
-    } else {
-      // if the colors are not defined, set the default colors
-      setColors("#000000", "#ffffff");
-    }
-  }, [colors, data]);
-
-  useEffect(() => {
-    // function to set the scroll step in the state at each scroll
-    const onScroll = (e: Event) => setScrollStep(window.scrollY);
-
-    // add the scroll event listener to the window
-    window.addEventListener("scroll", onScroll);
-
-    // remove the scroll event listener when the component is unmounted
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // if the project is valid and the data is defined, return the project page
-  return isValid && data ? (
-    <Layout title={data.name} description={data.description}>
-      <section className={`${styles.introduction} project_section`}>
-        <div
-          style={{
-            backgroundImage: `url("${data.banner}")`,
-            backgroundPositionY: `top ${scrollStep / 5}px`,
-            backgroundPositionX: "center 50%",
-          }}
-          className={styles.introductionImage}
-        ></div>
-        <h1 className={styles.introductionTitle}>{data.name}</h1>
-      </section>
-      <section className={`${styles.description} project_section`}>
-        <Image
-          src={data.illustration}
-          alt={`${data.name} illustration`}
-          width={400}
-          height={500}
-          className={styles.descriptionImage}
-        />
-        <article>
-          <h2 className={styles.descriptionTitle}>{data.name}</h2>
-          <ul className={styles.descriptionList}>
-            {data.keywords.map((keyword, index) => (
-              <li className={styles.descriptionListItem} key={index}>
-                {keyword}
-              </li>
-            ))}
-          </ul>
-          <p className={styles.descriptionText}>{data.description}</p>
-          {data.type === "video" ? (
-            <button
-              className={styles.descriptionButton}
-              onClick={handleClick}
-              aria-label="button"
-            >
-              Voir la vidéo
-            </button>
-          ) : data.type == "website" ? (
-            <button
-              className={styles.descriptionButton}
-              onClick={handleClick}
-              aria-label="button"
-            >
-              Voir le site
-            </button>
-          ) : (
-            <Fragment />
-          )}
-        </article>
-      </section>
-      {data.workers && data.workers.length > 0 ? (
-        <>
-          <section className={`${styles.gap} project_section`}>
-            <div
-              className={styles.gapImage}
-              style={{
-                backgroundImage: `url("${data.banner}")`,
-                backgroundPositionY: `top calc(${scrollStep / 5}px - 40vw)`,
-              }}
-            ></div>
-          </section>
-          <section className={`${styles.members} project_section`}>
-            <h2 className={styles.membersTitle}>
-              Les membres de l&apos;équipe du projet :
-            </h2>
-            {data.workers ? (
-              <WorkersSection workers={data.workers} />
-            ) : (
-              <p>Aucun membre d&apos;équipe trouvé !</p>
-            )}
-          </section>
-        </>
-      ) : (
-        <Fragment />
-      )}
-      <section className={`${styles.showmore} project_section`}>
-        <div
-          className={styles.showmoreImage}
-          style={{
-            backgroundImage: `url("${data.banner}")`,
-            backgroundPositionY: `top calc(${scrollStep / 5}px - 40vw)`,
-          }}
-        ></div>
-        <nav className={styles.showmoreNav}>
-          <button
-            className={styles.showmoreButton}
-            onClick={handleContentClick}
-          >
-            Voir le contenu complet
-          </button>
-          <Link className={styles.showmoreButton} href="/projects">
-            Voir les autres projets
-          </Link>
-          <a
-            href={data.documentation}
-            className={styles.showmoreButton}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Voir la documentation
-          </a>
-        </nav>
-        <p
-          aria-hidden={fullContentError === "" ? true : false}
-          className={`${styles.showmoreError} ${
-            fullContentError !== "" ? styles.showmoreErrorIsActive : ""
-          }`}
-        >
-          {fullContentError}
-        </p>
-      </section>
-      <section
-        className={`${styles.fullContent} ${
-          fullContentIsShown
-            ? styles.fullContentVisible
-            : styles.fullContentNotVisible
-        }`}
-      >
-        {fullContent !== null &&
-        fullContentIsShown === true &&
-        fullContent.data !== undefined ? (
-          <Fragment>
-            {fullContent.data.map((content, index) => {
-              const TextComponent = (
-                <div
-                  dangerouslySetInnerHTML={{ __html: content.content }}
-                  className={styles.fullContentText}
-                ></div>
-              );
-              const ImageComponent = (
-                <div className={styles.fullContentImages}>
-                  {content.image.map((image, index) => (
-                    <Image
-                      key={index}
-                      src={image.url}
-                      alt={image.alt}
-                      width={400}
-                      height={500}
-                      className={styles.fullContentImage}
-                    />
-                  ))}
-                </div>
-              );
-              return (
-                <article key={index} className={styles.fullContentArticle}>
-                  {index % 2 === 0 ? (
-                    <>
-                      {TextComponent} {ImageComponent}
-                    </>
-                  ) : (
-                    <>
-                      {ImageComponent} {TextComponent}
-                    </>
-                  )}
-                </article>
-              );
-            })}
-            <article
-              className={styles.fullContentConclusion}
-              dangerouslySetInnerHTML={{ __html: fullContent.conclusion }}
-            ></article>
-          </Fragment>
-        ) : (
-          <Fragment />
-        )}
-      </section>
+  return props.isValid && props.data ? (
+    <Layout title={props.data.name} description={props.data.description}>
+      <ProjectIntroduction name={props.data.name} />
+      <ProjectBanner data={props.data} />
+      <ProjectContent data={props.data} />
+      <ProjectWorkers workers={props.data.workers} />
+      <ProjectEnd />
     </Layout>
   ) : (
-    // If the project is not found, we display a 404 error
-    <Error statusCode={404} title={"Project Introuvable"} />
+    <Error statusCode={404} />
   );
 }
 
-// The component that displays the workers
-
-// The props type
-type WorkersSectionProps = {
-  workers: {
-    id: string;
-    name: string;
-    role: string;
-    description: string;
-    image?: string;
-    link: string;
-  }[];
-};
-
-function WorkersSection(props: WorkersSectionProps) {
-  // The current worker displayed in the slider
+const ProjectWorkers = (props: { workers: WorkerType[] | undefined }) => {
   const [currentWorker, setCurrentWorker] = useState(0);
 
-  // The function that handle the slider right click
-  const handleRightClick = () => {
-    if (currentWorker < props.workers.length - 1) {
-      setCurrentWorker(currentWorker + 1);
-    } else {
-      setCurrentWorker(0);
-    }
-  };
-  // The function that handle the slider left click
-  const handleLeftClick = () => {
-    if (currentWorker > 0) {
-      setCurrentWorker(currentWorker - 1);
-    } else {
-      setCurrentWorker(props.workers.length - 1);
-    }
-  };
+  useEffect(() => {
+    const windowWidth = window.innerWidth;
+    const titleWidth =
+      document.querySelector(`.${styles.workers__title}`)?.clientWidth || 0;
+
+    gsap.fromTo(
+      `.${styles.workers__title}`,
+      { x: 0 },
+      {
+        x: -titleWidth + windowWidth,
+        scrollTrigger: {
+          trigger: `.${styles.workers}`,
+          start: "top 100%",
+          end: "bottom 0%",
+          scrub: 1,
+        },
+      }
+    );
+  }, []);
+
+  if (props.workers === undefined || props.workers.length === 0)
+    return <div className={styles.workers__end}></div>;
 
   return (
-    <div className={styles.membersContainer}>
-      <div
-        className={`${styles.membersSlider} ${styles.membersSliderLeft}`}
-        onClick={handleLeftClick}
-      >
-        <FontAwesomeIcon icon={faChevronLeft} />
-      </div>
-      <div
-        className={`${styles.membersSlider} ${styles.membersSliderRight}`}
-        onClick={handleRightClick}
-      >
-        <FontAwesomeIcon icon={faChevronRight} />
-      </div>
-      {props.workers?.map((worker, index) => (
-        <article
-          key={index}
-          className={`${styles.member} ${
-            index === currentWorker
-              ? styles.memberVisible
-              : styles.memberNotVisible
-          }`}
-        >
-          <div className={styles.memberData}>
-            <h3 className={styles.memberName}>{worker.name}</h3>
-            <h4 className={styles.memberRole}>{worker.role}</h4>
-            <p className={styles.memberText}>{worker.description}</p>
-
-            {worker.link !== "" && (
-              <a
-                target={"_blank"}
-                rel="noreferrer"
-                href={worker.link}
-                className={`${styles.memberLink} ${
-                  worker.link === "https://pierregueroult.dev"
-                    ? styles.memberLinkHidden
+    <section className={styles.workers}>
+      <h2 className={styles.workers__title}>
+        <span>L&apos;équipe du projet</span>
+        <span>L&apos;équipe du projet</span>
+      </h2>
+      <div className={styles.workers__container}>
+        <div className={styles.workers__description}>
+          {props.workers &&
+            props.workers.map((worker, index) => (
+              <div
+                key={index}
+                className={`${styles.workers__description__text} ${
+                  index === currentWorker
+                    ? styles.workers__description__text__active
                     : ""
                 }`}
+                onClick={() => setCurrentWorker(index)}
               >
-                Voir son site
-              </a>
-            )}
-          </div>
-          <div className={styles.memberImageContainer}>
-            {worker.image ? (
-              worker.image.endsWith(".glb") ? (
+                <h3>{worker.data.name}</h3>
+                <h4>{worker.role}</h4>
+                <p>{worker.description}</p>
+              </div>
+            ))}
+        </div>
+        <div className={styles.workers__avatars}>
+          {props.workers &&
+            props.workers.map((worker, index) =>
+              index === currentWorker ? (
                 <Avatar
-                  modelSrc={worker.image}
-                  animationSrc={
-                    "https://data.pierregueroult.dev/avatars/male-idle.glb"
-                  }
-                  className={styles.memberImage}
+                  modelSrc={worker.data.image}
+                  animationSrc={animations[0]}
+                  className={styles.workers__avatar}
                   scale={0.26}
                   cameraTarget={0.23}
                   cameraInitialDistance={0.2}
+                  key={index}
                 />
               ) : (
-                <Image
-                  src={worker.image}
-                  alt={`${worker.name} illustration`}
-                  width={200}
-                  height={450}
-                  className={styles.memberImage}
-                  quality={100}
-                  unoptimized={true}
-                />
+                <Fragment key={index}></Fragment>
               )
-            ) : (
-              <div className={styles.memberImagePlaceholder}></div>
             )}
-          </div>
-        </article>
-      ))}
-    </div>
+        </div>
+      </div>
+      <div className={styles.workers__end}></div>
+    </section>
   );
-}
+};
+
+const ProjectIntroduction = (props: { name: string }) => {
+  useEffect(() => {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const titleWidth =
+      document.querySelector(`.${styles.introduction__title__ltr}`)
+        ?.clientWidth || 0;
+
+    gsap.fromTo(
+      `.${styles.introduction__title__ltr}`,
+      { x: -titleWidth + windowWidth },
+      {
+        x: windowWidth,
+        ease: "linear",
+        scrollTrigger: {
+          trigger: `.${styles.banner}`,
+          scrub: 0.5,
+          end: `+=${windowHeight * 1.2}`,
+        },
+      }
+    );
+
+    gsap.fromTo(
+      `.${styles.introduction__title__rtl}`,
+      { x: 0 },
+      {
+        x: -titleWidth,
+        ease: "linear",
+        scrollTrigger: {
+          trigger: `.${styles.banner}`,
+          scrub: 0.5,
+          end: `+=${windowHeight * 1.2}`,
+        },
+      }
+    );
+  }, []);
+
+  return (
+    <section className={styles.introduction}>
+      <div className={styles.introduction__container}>
+        <h2 className={styles.introduction__title__ltr}>
+          <span>{props.name}</span>
+          <span>{props.name}</span>
+        </h2>
+        <h2 className={styles.introduction__title__rtl}>
+          <span>{props.name}</span>
+          <span>{props.name}</span>
+        </h2>
+        <h2 className={styles.introduction__title__ltr}>
+          <span>{props.name}</span>
+          <span>{props.name}</span>
+        </h2>
+        <h2 className={styles.introduction__title__rtl}>
+          <span>{props.name}</span>
+          <span>{props.name}</span>
+        </h2>
+      </div>
+    </section>
+  );
+};
+
+const ProjectContent = (props: { data: CompleteProjectType }) => {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  return (
+    <section className={styles.content}>
+      {props.data.contentHistory && props.data.contentImages ? (
+        <>
+          <div
+            className={styles.content__text}
+            dangerouslySetInnerHTML={{ __html: props.data.contentHistory }}
+          ></div>
+          <div className={styles.content__images}>
+            <div className={styles.content__images__container}>
+              {props.data.contentImages.map((image, index) => (
+                <Image
+                  key={index}
+                  src={image}
+                  alt={`Image ${index + 1}`}
+                  width={600}
+                  height={600}
+                  className={`${styles.content__image}`}
+                  style={{
+                    opacity: index === currentImage ? 1 : 0,
+                    zIndex: index === currentImage ? 1 : 0,
+                  }}
+                />
+              ))}
+            </div>
+            <div className={styles.content__images__selector}>
+              {props.data.contentImages.map((image, index) => (
+                <button
+                  key={index}
+                  className={styles.content__images__selector__button}
+                  aria-label="Select image"
+                  onClick={() => setCurrentImage(index)}
+                >
+                  <Image
+                    key={index}
+                    src={image}
+                    alt={`Image ${index + 1}`}
+                    width={100}
+                    height={100}
+                    className={`${styles.content__selector__image}`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
+    </section>
+  );
+};
+
+const ProjectBanner = (props: { data: CompleteProjectType }) => {
+  return (
+    <section className={styles.banner}>
+      <div className={styles.banner__text}>
+        <h1>{props.data.name}</h1>
+        <div>
+          <div className={styles.banner__container}>
+            <table className={styles.banner__table}>
+              <tbody>
+                <tr>
+                  <td>Type :</td>
+                  <td>
+                    {props.data.type === "video"
+                      ? "Vidéo"
+                      : props.data.type === "website"
+                      ? "Site Web"
+                      : props.data.type === "photo"
+                      ? "Photo"
+                      : props.data.type === "economic"
+                      ? "Gestion / Organisation"
+                      : props.data.type === "graphism"
+                      ? "Graphisme"
+                      : props.data.type === "drawing"
+                      ? "Dessin"
+                      : props.data.type === "marketing"
+                      ? "Marketing"
+                      : "Autre"}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Année :</td>
+                  <td> {new Date(props.data.createdAt).getFullYear()}</td>
+                </tr>
+                <tr>
+                  <td>Commanditaire :</td>
+                  <td>{props.data.company || "Projet de cours"}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className={styles.banner__container}>
+            <ul>
+              {props.data.keywords.map((keyword, index) => (
+                <li key={index}>{keyword}</li>
+              ))}
+            </ul>
+            <p>{props.data.description}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ProjectEnd = () => {
+  return <div className={styles.end}></div>;
+};
 
 export const getStaticProps: GetStaticProps = async (context) => {
   // get the project name from the query
@@ -425,7 +362,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     // we search for the project in the database
     const data = await prisma.project.findUnique({
       where: { concatenatedName: name },
-      include: { workers: true },
+      include: { workers: { include: { data: true } } },
     });
     // if the project is not found, we return an error
     if (data === null) {
@@ -441,6 +378,25 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     // look for the contrasted color of the project color
     const contrastedColor = getContrastedColor(serializedData.color);
+    const invertedColor = getInvertedColor(serializedData.color);
+
+    const url = "https://data.pierregueroult.dev/contents/" + name + ".md";
+
+    var content;
+
+    try {
+      content = await axios.get(url);
+    } catch (error) {
+      content = { data: "", status: 404 };
+    }
+
+    var convertedContent = await MarkdownToHTML(
+      content.status === 200
+        ? content.data
+        : "Le contenu de ce projet n'est pas disponible pour le moment."
+    );
+    // we add the content to the data
+    serializedData.contentHistory = convertedContent;
 
     // we return the data
     return {
@@ -450,6 +406,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         colors: {
           accent: serializedData.color,
           contrasted: contrastedColor,
+          inverted: invertedColor,
         },
       },
     };

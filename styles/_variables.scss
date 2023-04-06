@@ -2,12 +2,17 @@
 // $background_color: #071526;
 
 $base_color: #4169e1;
-
 $background_color: darken($base_color, 30%);
 $background_color_main: darken($base_color, 40%);
+
+// $base_color: #4169e1;
+// $background_color_main: #131313;
+// $background_color: darken($base_color, 40%);
+
 $font_color: #ffffff;
 $font_color_main: #ffffff;
 $accent_color: #a68a56;
+// $accent_color: darken($base_color, 10%);
 
 $footer_height: 250px;
 $header_height: 90px;

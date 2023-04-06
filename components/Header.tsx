@@ -64,52 +64,48 @@ export default function Header(props: Props) {
       </Link>
       <LayoutGroup>
         <nav className={`${styles.nav}`}>
-          {props.currentPath === "/" ? (
-            <></>
-          ) : (
-            <ul className={styles.links}>
-              {routes.map(({ name, link }, i) => (
-                <li
-                  key={i}
-                  className={`${
-                    variantsParents.some((variant) =>
-                      props.currentPath.startsWith(variant)
-                    ) && props.currentPath !== "/projects/all"
-                      ? styles.completeHidden
-                      : ""
-                  }`}
-                >
-                  <Link href={link} className={styles.link} aria-label={name}>
-                    {name}
-                    {isActiveLink(router.pathname, link) && (
-                      <motion.div
-                        layoutId="navigation-underline"
-                        className={styles.linkIsActive}
-                        animate
-                      />
-                    )}
-                  </Link>
-                </li>
-              ))}
+          <ul className={styles.links}>
+            {routes.map(({ name, link }, i) => (
               <li
+                key={i}
                 className={`${
                   variantsParents.some((variant) =>
                     props.currentPath.startsWith(variant)
                   ) && props.currentPath !== "/projects/all"
-                    ? styles.isVariant
-                    : styles.moreLinkOpen
+                    ? styles.completeHidden
+                    : ""
                 }`}
               >
-                <Link
-                  href={"/projects"}
-                  className={styles.link}
-                  aria-label={"Projets"}
-                >
-                  Retour aux projets
+                <Link href={link} className={styles.link} aria-label={name}>
+                  {name}
+                  {isActiveLink(router.pathname, link) && (
+                    <motion.div
+                      layoutId="navigation-underline"
+                      className={styles.linkIsActive}
+                      animate
+                    />
+                  )}
                 </Link>
               </li>
-            </ul>
-          )}
+            ))}
+            <li
+              className={`${
+                variantsParents.some((variant) =>
+                  props.currentPath.startsWith(variant)
+                ) && props.currentPath !== "/projects/all"
+                  ? styles.isVariant
+                  : styles.moreLinkOpen
+              }`}
+            >
+              <Link
+                href={"/projects"}
+                className={styles.link}
+                aria-label={"Projets"}
+              >
+                Retour aux projets
+              </Link>
+            </li>
+          </ul>
         </nav>
       </LayoutGroup>
     </header>

@@ -38,6 +38,10 @@ main {
   color: variables.$font_color;
 }
 
+span.emoji {
+  font-family: var(--emojiFont);
+}
+
 code {
   .hljs-keyword {
     color: red;
@@ -65,6 +69,29 @@ code {
   }
 
   span {
-    color: variables.$font_color !important;
+    color: variables.$font_color;
+  }
+}
+
+@keyframes linkAnimation {
+  0% {
+    width: 100%;
+    right: 0;
+    left: unset;
+  }
+  50% {
+    width: 0;
+    right: 0;
+    left: unset;
+  }
+  51% {
+    width: 0;
+    right: unset;
+    left: 0;
+  }
+  100% {
+    width: 100%;
+    right: unset;
+    left: 0;
   }
 }
