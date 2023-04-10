@@ -11,6 +11,10 @@ body {
   overflow-x: hidden;
   scroll-behavior: smooth;
   background-color: variables.$background_color_main;
+
+  @media screen and (min-width: 950px) {
+    overflow-y: auto !important;
+  }
 }
 
 img {

@@ -4,13 +4,11 @@ import { DefaultSeo } from "next-seo";
 import { AnimatePresence } from "framer-motion";
 import NProgress from "nprogress";
 import Script from "next/script";
-import Head from "next/head";
 
 // ? import dependencies
 import Footer from "@/components/Footer";
-import "@/styles/_global.scss";
 import Header from "@/components/Header";
-import { useEffect, useState } from "react";
+import "@/styles/_global.scss";
 
 // ? setup nprogress
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -32,6 +30,17 @@ function MainApp({ Component, pageProps, router }: AppProps) {
           description: "Le portfolio 2023 de Pierre Gueroult, développeur",
           site_name: "Pierre Gueroult - Développeur - pierregueroult.dev",
         }}
+        additionalMetaTags={[
+          {
+            property: "keywords",
+            content:
+              "portofolio, portfolio, pierregueroult, student, etudiant, developper, developpeur, javascript, html, css, design, web",
+          },
+          {
+            property: "author",
+            content: "Pierre Gueroult",
+          },
+        ]}
       />
       <Script
         async
@@ -48,6 +57,13 @@ function MainApp({ Component, pageProps, router }: AppProps) {
             gtag("config", "G-FWSBRY7JL0");`,
         }}
       />
+      <Script
+        id="log-at-start"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `console.log("%cHello there ! 👋", "font-size: 3rem;font-family: Courier; font-weight: 600;"); console.log("%cIf you're here, it means you're interested in the code of this website. I'm Pierre, a french web developer. If you want to know more about me, you can check my portfolio at https://pierregueroult.dev. If you want to contact me, you can send me an email at contact@pierregueroult.dev Have a nice day !", "font-size: 1.2rem;");`,
+        }}
+      ></Script>
       <Header currentPath={router.route} />
       <AnimatePresence
         initial={false}

@@ -120,7 +120,6 @@ const AllProject = ({ projects }: allProjectProps) => {
             name="keywords"
             id="keywords"
             autoComplete="none"
-            autoFocus
             tabIndex={1}
             onChange={handleChangeKeywords}
           />

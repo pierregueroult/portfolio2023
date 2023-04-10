@@ -48,7 +48,7 @@ const Projects = (props: projectsProps) => {
       </Link>
       {props.lastLogos.length >= 7 ? (
         <>
-          <h2 className={styles.title}>Mon Logofolio</h2>
+          <h2 className={styles.title__variant}>Mon Logofolio</h2>
           <section className={styles.logofolio}>
             {props.lastLogos.map((logo, i) => (
               <article key={i}>
@@ -63,7 +63,7 @@ const Projects = (props: projectsProps) => {
           </section>
         </>
       ) : (
-        <h2 className={styles.title}>Contenu à venir ...</h2>
+        <h2 className={styles.title__variant}>Contenu à venir ...</h2>
       )}
     </Layout>
   );

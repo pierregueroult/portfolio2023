@@ -1,0 +1,249 @@
+@use "./variables";
+
+.section {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: variables.$background_color_main;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 11vw;
+  font-family: var(--textFont);
+  line-height: 1.1;
+  text-align: center;
+  width: 100vw;
+
+  span {
+    position: relative;
+  }
+}
+.content {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  gap: 5rem;
+  align-items: flex-start;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  &__socialMedias {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+
+    li {
+      height: 40px;
+      width: 40px;
+      list-style: none;
+      user-select: none;
+
+      a {
+        color: variables.$font_color;
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        transform: scale(1);
+
+        &:hover {
+          color: variables.$accent_color;
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+  &__form {
+    width: 35vw;
+
+    &__container {
+      display: flex;
+      gap: 10%;
+    }
+
+    h3 {
+      font-size: 1.9rem;
+      font-family: var(--textFont);
+      font-weight: 500;
+      color: variables.$font_color;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 50px;
+      border: 2px solid variables.$font_color;
+      background-color: variables.$background_color;
+      outline: none;
+      color: variables.$font_color;
+      width: 100%;
+      padding: 1rem 0rem;
+      font-size: 1.4rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      transition: color 0.3s ease-in-out;
+      font-weight: 600;
+
+      &::after {
+        content: "";
+        height: 0%;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        background-color: variables.$font_color;
+        transition: height 0.3s ease-in-out;
+      }
+
+      &:hover {
+        color: variables.$background_color;
+        &::after {
+          height: 100%;
+        }
+      }
+    }
+
+    &__input {
+      position: relative;
+      width: 45%;
+
+      height: 4rem;
+
+      &__variant {
+        width: 100%;
+      }
+
+      input,
+      textarea {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px 0;
+        font-size: 1.2rem;
+        color: variables.$font_color;
+        margin-bottom: 30px;
+        border: none;
+        border-bottom: 2px solid variables.$font_color;
+        background-color: transparent;
+        outline: none;
+        font-family: var(--textFont);
+        width: 100%;
+
+        &:focus + label,
+        &:valid + label {
+          top: -20px;
+          left: 0;
+          font-size: 0.9rem;
+          color: variables.$accent_color;
+        }
+      }
+
+      label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px 0;
+        font-size: 1.2rem;
+        color: variables.$font_color;
+        pointer-events: none;
+        transition: 0.5s;
+        font-family: var(--textFont);
+        user-select: none;
+      }
+    }
+  }
+
+  &__topics {
+    width: 40vw;
+
+    h3 {
+      font-size: 1.9rem;
+      font-family: var(--textFont);
+      font-weight: 500;
+      color: variables.$font_color;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    ul {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    li {
+      font-size: 1.5rem;
+      font-family: var(--textFont);
+      font-weight: 600;
+      color: variables.$font_color;
+      list-style: none;
+      border: 2px solid variables.$font_color;
+      padding: 1rem;
+      width: fit-content;
+      cursor: pointer;
+      position: relative;
+      background-color: variables.$background_color;
+      z-index: 1;
+      overflow: hidden;
+      animation: revealTopics 0.5s ease-in-out forwards;
+
+      @for $i from 1 through 20 {
+        &:nth-child(#{$i}) {
+          animation-delay: 0.1s * $i;
+        }
+      }
+
+      user-select: none;
+      opacity: 0;
+
+      &::after {
+        content: "";
+        height: 100%;
+        width: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background-color: variables.$font_color;
+        transition: width 0.3s ease-in-out;
+      }
+
+      &:hover {
+        color: variables.$background_color;
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@keyframes revealTopics {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

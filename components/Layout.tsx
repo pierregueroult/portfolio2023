@@ -4,6 +4,8 @@
 import { NextSeo } from "next-seo";
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
+import Head from "next/head";
+
 // ? import other files
 import { titleFont, textFont, codeFont } from "@/lib/fontHandling";
 

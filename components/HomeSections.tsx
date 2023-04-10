@@ -1,107 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "@/styles/Home.module.scss";
 import Link from "next/link";
-import upperCases from "@/lib/upperCases";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { footerTopics } from "@/lib/data";
 
 import { HomeProject } from "@/pages";
-import Marquee from "react-fast-marquee";
 import socialMedias from "@/lib/socialmedia";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const gsapyoffset = 100;
-const gsapxoffset = 100;
-
-const cursorText = "scrollDOWN";
-
 export const HomeSectionFirst = () => {
-  const [currentPos, setCurrentPos] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
-  const cursorEl = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    // ? cursor animation
-    const handleMouseMoove = (event: MouseEvent) => {
-      setTimeout(() => {
-        setCurrentPos({ x: event.clientX, y: event.clientY });
-      }, 0);
-    };
-    window.addEventListener("mousemove", handleMouseMoove);
-
-    // ? gsap parallax
-    gsap.to(`.${styles.sectionfirst__text}`, {
-      scrollTrigger: {
-        scrub: true,
-      },
-      y: gsapyoffset,
-      x: -gsapxoffset,
-      ease: "none",
-    });
-    gsap.to(`.${styles.sectionfirst__illustration}`, {
-      scrollTrigger: {
-        scrub: true,
-      },
-      y: gsapyoffset,
-      x: gsapxoffset,
-      ease: "none",
-    });
-
-    return () => window.addEventListener("mousemove", handleMouseMoove);
-  }, []);
-
-  useEffect(() => {
-    var content = cursorText
-      .split("")
-      .map((letter) =>
-        upperCases.includes(letter)
-          ? `<span class="${
-              styles.sectionfirst__spanVariant
-            }">${letter.toUpperCase()}</span>`
-          : `<span>${letter.toUpperCase()}</span>`
-      )
-      .join("");
-    if (cursorEl.current)
-      cursorEl.current.innerHTML = `<div style="--count: ${cursorText.length}">${content}${content}</div>`;
-  }, []);
-
-  return (
-    <>
-      <div className={styles.sectionfirst__text}>
-        <h1 className={styles.sectionfirst__title}>
-          Bonjour. Je suis <span>Pierre Guéroult</span>. <br />
-          Futur <span>Développeur Web</span>.
-        </h1>
-        <p className={styles.sectionfirst__description}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-          voluptatem hic, eveniet eligendi quas, quis illum saepe animi at totam
-          veniam a ea. Similique enim delectus inventore molestiae cupiditate
-          dolore.
-        </p>
-        <Link
-          href="/projects"
-          className={styles.sectionfirst__link}
-          title="Voir mes projets"
-        >
-          Voir mes projets
-        </Link>
-      </div>
-      <div className={styles.sectionfirst__illustration}></div>
-      <div
-        className={styles.sectionfirst__cursor}
-        ref={cursorEl}
-        style={{
-          transform: `translate(${
-            currentPos.x - (cursorEl.current?.clientWidth || 0) / 2
-          }px, ${currentPos.y - (cursorEl.current?.clientHeight || 0) / 2}px)`,
-        }}
-      ></div>
-    </>
-  );
+  return <></>;
 };
 
 export const HomeSectionSecond = (props: { webProjects: HomeProject[] }) => {
@@ -237,22 +147,6 @@ export const HomeSectionFourth = () => {
       onEnter: (batch) =>
         gsap.to(batch, { autoAlpha: 1, opacity: 1, stagger: 0.2 }),
     });
-
-    gsap.fromTo(
-      `${styles.sectionforth__content__form}`,
-      {
-        autoAlpha: 0,
-        opacity: 0,
-      },
-      {
-        opacity: 1,
-        autoAlpha: 1,
-        scrollTrigger: {
-          trigger: `.${styles.sectionforth__content__form}`,
-          scrub: 1,
-        },
-      }
-    );
   }, []);
 
   return (
@@ -282,7 +176,7 @@ export const HomeSectionFourth = () => {
         </div>
         <div className={styles.sectionforth__content__form}>
           <h3>Me contacter :</h3>
-          <form method="POST" action="/api/contact">
+          <form method="GET" action="/contact/success">
             <div className={styles.sectionforth__content__form__container}>
               <div className={styles.sectionforth__content__form__input}>
                 <input type="text" name="name" id="name" required />

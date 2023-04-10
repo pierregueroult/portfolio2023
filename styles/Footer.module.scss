@@ -80,7 +80,7 @@
       background-color: variables.$accent_color;
     }
     &:hover::after {
-      background-color: var(--textColor) !important;
+      background-color: variables.$font_color !important;
     }
   }
 }

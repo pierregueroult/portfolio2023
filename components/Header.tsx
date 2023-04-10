@@ -9,6 +9,7 @@ import styles from "@/styles/Header.module.scss";
 import { useRouter } from "next/router";
 import { titleFont, textFont } from "@/lib/fontHandling";
 import { variantsPages, variantsParents } from "@/lib/layoutVariants";
+import { useEffect, useState } from "react";
 
 // ? setup routes
 const routes: { name: string; link: string }[] = [
@@ -43,7 +44,34 @@ type Props = {
 };
 
 export default function Header(props: Props) {
+  const [active, setActive] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const pageName = document.title;
+    window.onblur = () => {
+      document.title = "Tu vas où comme ça ? 🤔";
+    };
+    window.onfocus = () => {
+      document.title = pageName;
+    };
+  }, [router]);
+
+  const triggerState = (status?: boolean) => {
+    if (status) {
+      setActive(status);
+    } else {
+      if (active) {
+        document.body.style.overflowY = "auto";
+        document.body.onclick = null;
+        setActive(false);
+      } else {
+        document.body.style.overflowY = "hidden";
+        document.body.onclick = () => triggerState();
+        setActive(true);
+      }
+    }
+  };
 
   return (
     <header
@@ -62,8 +90,22 @@ export default function Header(props: Props) {
       <Link href={"/"} className={styles.titleLink}>
         <h2 className={styles.title}>pierre gueroult.</h2>
       </Link>
+      <button
+        className={styles.burger}
+        onClick={() => triggerState()}
+        aria-label="Menu"
+      >
+        <div className={styles.burgerLine} />
+        <div className={styles.burgerLine} />
+        <div className={styles.burgerLine} />
+      </button>
+      <div
+        className={`${styles.overlay} ${active ? styles.overlay__active : ""}`}
+        onClick={() => triggerState(false)}
+      ></div>
+
       <LayoutGroup>
-        <nav className={`${styles.nav}`}>
+        <nav className={`${styles.nav} ${active ? styles.active : ""}`}>
           <ul className={styles.links}>
             {routes.map(({ name, link }, i) => (
               <li
@@ -75,6 +117,7 @@ export default function Header(props: Props) {
                     ? styles.completeHidden
                     : ""
                 }`}
+                onClick={() => triggerState(false)}
               >
                 <Link href={link} className={styles.link} aria-label={name}>
                   {name}
@@ -96,6 +139,7 @@ export default function Header(props: Props) {
                   ? styles.isVariant
                   : styles.moreLinkOpen
               }`}
+              onClick={() => triggerState(false)}
             >
               <Link
                 href={"/projects"}

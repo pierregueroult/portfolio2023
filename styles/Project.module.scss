@@ -5,13 +5,29 @@
   color: variables.$font_color;
   font-family: var(--titleFont);
   font-weight: 400;
-  font-size: 2.8rem;
+  font-size: 6vw;
   margin: calc(#{variables.$header_height} + 2rem) 0 2rem 0;
-  text-decoration: underline;
-  text-decoration-color: variables.$accent_color;
-  text-decoration-line: underline;
-  text-decoration-thickness: 0.2rem;
   user-select: none;
+  text-transform: uppercase;
+  width: 100vw;
+  white-space: nowrap;
+  overflow: hidden;
+
+  @media screen and (max-width: 650px) {
+    font-size: 7vw;
+  }
+
+  &__variant {
+    font-size: 2rem;
+    font-family: var(--titleFont);
+    text-align: center;
+    color: variables.$font_color;
+    font-weight: 400;
+    user-select: none;
+    white-space: nowrap;
+    width: 100vw;
+    margin: 5rem 0;
+  }
 }
 
 .projects {
@@ -37,6 +53,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-variation-settings: "wght" 400;
+
+  transition: color 300ms ease-in-out, font-variation-settings 300ms ease-in-out;
 
   &::before {
     content: "";
@@ -45,13 +64,21 @@
     left: 0;
     width: 0%;
     height: 100%;
-    background-color: variables.$accent_color;
+    background-color: variables.$font_color;
     z-index: -1;
     transition: width 300ms ease-in-out;
   }
 
-  &:hover::before {
-    width: calc(100% - 2.3rem);
+  &:hover {
+    color: variables.$background_color_main;
+    font-variation-settings: "wght" 700;
+
+    svg {
+      color: variables.$font_color;
+    }
+    &::before {
+      width: calc(100% - 2.3rem);
+    }
   }
 
   svg {
@@ -66,11 +93,21 @@
     height: calc(20vw - 1rem);
     min-width: 250px;
     min-height: 250px;
-    background-color: variables.$accent_color;
+    background-color: transparent;
     padding: 1.5rem;
     position: relative;
     transition: background-color 600ms ease-in-out;
     overflow: hidden;
+    border: 2px solid variables.$font_color;
+    list-style: none;
+
+    @media screen and (max-width: 650px) {
+      width: 48vw;
+      height: 48vw;
+      min-width: unset;
+      min-height: unset;
+      padding: 0.5rem;
+    }
 
     &:hover {
       background-color: var(--color);
@@ -99,29 +136,37 @@
   &__text {
     h3 {
       font-size: 3rem;
-      font-family: var(--titleFont);
+      font-family: var(--textFont);
       text-decoration: none;
       line-height: 0.9;
       transition: color 600ms ease-in-out, mix-blend-mode 600ms ease-in-out;
+      font-weight: 800;
+
+      @media screen and (max-width: 650px) {
+        font-size: 2rem;
+      }
     }
     h4 {
       font-size: 1.7rem;
       font-family: var(--textFont);
       margin-top: 1rem;
       transition: color 600ms ease-in-out, mix-blend-mode 600ms ease-in-out;
+      font-weight: 600;
     }
   }
 
   &__callToAction {
     svg {
       transition: color 600ms ease-in-out, mix-blend-mode 600ms ease-in-out;
-    }
-    svg {
       height: 50px;
       width: 50px;
       position: absolute;
       right: 2rem;
       bottom: 2rem;
+
+      @media screen and (max-width: 500px) {
+        display: none;
+      }
     }
   }
 }
@@ -200,17 +245,41 @@
     justify-content: center;
     margin-bottom: 5rem;
     transition: height 600ms ease-in-out;
+
+    @media screen and (max-width: 700px) {
+      width: 100vw;
+    }
   }
   &__filter {
     margin-bottom: 3rem;
     display: flex;
     justify-content: center;
     gap: 3rem;
+    width: 100vw;
+    overflow: hidden;
+
+    @media screen and (max-width: 950px) {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
 
     p {
       display: flex;
       gap: 1rem;
       align-items: center;
+
+      @media screen and (max-width: 600px) {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      &:first-of-type {
+        @media screen and (max-width: 800px) {
+          display: none;
+        }
+      }
     }
 
     label {
@@ -232,7 +301,7 @@
   }
   &__title {
     padding-top: calc(#{variables.$header_height} + 2rem);
-    font-size: 2.5rem;
+    font-size: 6vw;
     font-family: var(--titleFont);
     color: variables.$font_color;
     margin-bottom: 2rem;
@@ -240,11 +309,12 @@
     color: variables.$font_color;
     font-family: var(--titleFont);
     font-weight: 400;
-    font-size: 2.8rem;
-    text-decoration: underline;
-    text-decoration-color: variables.$accent_color;
-    text-decoration-line: underline;
-    text-decoration-thickness: 0.2rem;
+
     user-select: none;
+    text-transform: uppercase;
+
+    @media screen and (max-width: 800px) {
+      font-size: 10vw;
+    }
   }
 }

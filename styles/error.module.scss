@@ -1,43 +1,178 @@
 @use "./variables";
 
-.errorContainer {
+.container {
+  height: calc(100vh - variables.$header_height);
+  margin-top: variables.$header_height;
+  position: relative;
+}
+
+.marquee {
+  position: absolute;
+  bottom: 3vh;
+  left: 0;
+  width: 100vw;
+
+  span {
+    white-space: nowrap;
+    font-size: 12vw;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: variables.$font_color;
+    font-family: var(--textFont);
+    margin-right: 7rem;
+  }
+}
+
+.error {
+  height: calc(100% - 15vw);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - #{variables.$footer_height});
-  width: 100%;
-}
 
-.errorCode {
-  font-family: var(--titleFont);
-  font-weight: 400;
-  text-align: center;
-  color: variables.$font_color;
-  font-size: 4rem;
-  position: relative;
+  h1 {
+    font-size: 10rem;
+    font-weight: 900;
+    color: variables.$font_color;
+    font-family: var(--textFont);
+    margin-bottom: 0;
+    position: relative;
 
-  &::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 3px;
-    width: 100%;
-    bottom: 1rem;
-    background-color: variables.$font_color;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 100%;
+      height: 0.5rem;
+      background-color: variables.$font_color;
+    }
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: variables.$font_color;
+    font-family: var(--textFont);
+    margin-top: 0;
+    text-transform: uppercase;
+    margin-top: 2rem;
+  }
+
+  p {
+    margin-top: 2rem;
+    font-size: 1rem;
+    font-weight: 800;
+    color: variables.$font_color;
+    font-family: var(--textFont);
+    text-align: center;
+
+    @media screen and (max-width: 1000px) {
+      display: none;
+    }
+  }
+
+  a {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: variables.$font_color;
+    font-family: var(--textFont);
+    margin-top: 2rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 0.1rem solid variables.$font_color;
+    transition: all 0.3s ease-in-out;
+    border: 2px solid variables.$font_color;
+    padding: 0.5rem 1rem;
+    user-select: none;
+
+    &:hover {
+      background-color: variables.$font_color;
+      color: variables.$background_color;
+    }
   }
 }
 
-.errorText {
-  text-align: center;
-  color: variables.$font_color;
+.message {
+  background-color: rgb(20, 20, 20);
+  width: fit-content;
+  position: absolute;
+  opacity: 0;
+  animation: messageAppear 0.5s ease-in-out forwards;
+  z-index: 200;
+  transform: translate(-50%, -50%);
+  border: solid 2px white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem 2rem;
   font-family: var(--textFont);
-  margin-bottom: 1rem;
   font-size: 1.2rem;
+  color: white;
+  font-weight: 600;
+  min-height: 8vh;
+  max-width: 20vw;
+  cursor: pointer;
+  box-shadow: 4px 4px 15px 3px #000000;
+
+  @media screen and (max-width: 1000px) {
+    min-width: fit-content;
+    display: none;
+  }
+
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: 0.5s * $i;
+    }
+  }
+
+  .margin {
+    margin-left: 2rem;
+  }
+
+  code {
+    white-space: normal;
+  }
+
+  .red {
+    color: rgb(248, 62, 62);
+  }
+  .blue {
+    color: rgb(31, 109, 255);
+  }
+  .green {
+    color: green;
+  }
+  .lightblue {
+    color: rgb(74, 210, 255);
+  }
+  .yellow {
+    color: yellow;
+  }
+  .orange {
+    color: orange;
+  }
+  .pink {
+    color: pink;
+  }
+  .purple {
+    color: purple;
+  }
+  .white {
+    color: white;
+  }
+  .black {
+    color: black;
+  }
 }
 
-.errorLink {
-  margin-top: 1rem;
-  color: variables.$accent_color;
+@keyframes messageAppear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

@@ -108,24 +108,26 @@ const ProjectWorkers = (props: { workers: WorkerType[] | undefined }) => {
   const [currentWorker, setCurrentWorker] = useState(0);
 
   useEffect(() => {
-    const windowWidth = window.innerWidth;
-    const titleWidth =
-      document.querySelector(`.${styles.workers__title}`)?.clientWidth || 0;
+    if (props.workers !== undefined && props.workers.length > 0) {
+      const windowWidth = window.innerWidth;
+      const titleWidth =
+        document.querySelector(`.${styles.workers__title}`)?.clientWidth || 0;
 
-    gsap.fromTo(
-      `.${styles.workers__title}`,
-      { x: 0 },
-      {
-        x: -titleWidth + windowWidth,
-        scrollTrigger: {
-          trigger: `.${styles.workers}`,
-          start: "top 100%",
-          end: "bottom 0%",
-          scrub: 1,
-        },
-      }
-    );
-  }, []);
+      gsap.fromTo(
+        `.${styles.workers__title}`,
+        { x: 0 },
+        {
+          x: -titleWidth + windowWidth,
+          scrollTrigger: {
+            trigger: `.${styles.workers}`,
+            start: "top 100%",
+            end: "bottom 0%",
+            scrub: 1,
+          },
+        }
+      );
+    }
+  }, [props.workers]);
 
   if (props.workers === undefined || props.workers.length === 0)
     return <div className={styles.workers__end}></div>;
@@ -196,7 +198,7 @@ const ProjectIntroduction = (props: { name: string }) => {
         scrollTrigger: {
           trigger: `.${styles.banner}`,
           scrub: 0.5,
-          end: `+=${windowHeight * 1.2}`,
+          end: `+=${windowHeight * 2}`,
         },
       }
     );
@@ -210,7 +212,7 @@ const ProjectIntroduction = (props: { name: string }) => {
         scrollTrigger: {
           trigger: `.${styles.banner}`,
           scrub: 0.5,
-          end: `+=${windowHeight * 1.2}`,
+          end: `+=${windowHeight * 2}`,
         },
       }
     );
@@ -267,6 +269,15 @@ const ProjectContent = (props: { data: CompleteProjectType }) => {
                   }}
                 />
               ))}
+              <div className={styles.content__pdf}>
+                <a
+                  href={props.data.documentation}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Voir la documentation du projet
+                </a>
+              </div>
             </div>
             <div className={styles.content__images__selector}>
               {props.data.contentImages.map((image, index) => (
