@@ -34,16 +34,28 @@
   }
 }
 
+.legals {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+
+  li a {
+    font-family: var(--textFont);
+    color: variables.$font_color;
+  }
+}
 .hidden {
   display: none;
 }
 
 .text {
-  font-family: var(--titleFont);
+  font-family: var(--textFont);
   color: variables.$font_color;
   font-size: 1.1rem;
   user-select: none;
-  font-weight: 400;
+  font-weight: 600;
+  padding-top: 0.5rem;
 
   svg {
     height: 1.1rem;

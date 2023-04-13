@@ -1,0 +1,58 @@
+@use "./variables";
+
+.legals {
+  width: 100vw;
+  max-width: 1000px;
+  margin: variables.$header_height auto 0 auto;
+  font-family: var(--textFont);
+  color: variables.$font_color;
+  padding-bottom: 3rem;
+
+  h1 {
+    font-size: 5rem;
+    text-align: center;
+    padding-top: 3rem;
+  }
+
+  blockquote {
+    font-size: 2rem;
+    font-style: italic;
+    text-align: center;
+    padding: 2rem 0;
+
+    &::before {
+      content: "🧑🏽‍💻";
+      font-family: var(--emojiFont);
+    }
+  }
+
+  h2 {
+    font-size: 3rem;
+    padding: 2rem 0;
+  }
+
+  a {
+    color: variables.$accent_color;
+    font-weight: 500;
+  }
+
+  p {
+    font-size: 1.5rem;
+    padding: 0.5rem 0;
+  }
+
+  ul {
+    list-style: none;
+
+    li {
+      font-size: 1.5rem;
+      padding: 0.5rem 0;
+
+      &::before {
+        content: "👉🏽";
+        font-family: var(--emojiFont);
+        margin-right: 1rem;
+      }
+    }
+  }
+}

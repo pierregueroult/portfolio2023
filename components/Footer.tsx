@@ -10,9 +10,10 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 // ? dependencies
 import styles from "@/styles/Footer.module.scss";
-import { titleFont } from "@/lib/fontHandling";
+import { textFont } from "@/lib/fontHandling";
 import { variantsPages } from "@/lib/layoutVariants";
 import socialMedias from "@/lib/socialmedia";
+import Link from "next/link";
 
 // ? array of social media links
 
@@ -21,7 +22,7 @@ function Footer() {
 
   return (
     <footer
-      className={`${styles.footer} ${titleFont.variable} ${
+      className={`${styles.footer} ${textFont.variable} ${
         variantsPages.includes(router.pathname) ? styles.hidden : ""
       } ${
         router.pathname.startsWith("/projects/") &&
@@ -49,6 +50,18 @@ function Footer() {
         <FontAwesomeIcon icon={faHeart} />
         by Pierre Guéroult
       </h3>
+      <ul className={`${styles.legals}`}>
+        <li>
+          <Link href="/legals/termsofuse" target="_blank">
+            Conditions d&apos;utilisation
+          </Link>
+        </li>
+        <li>
+          <Link href="/legals/privacypolicy" target="_blank">
+            Politique de confidentialité
+          </Link>
+        </li>
+      </ul>
       <WebsiteCarbonBadge
         url={
           "https://pierregueroult.dev" +
