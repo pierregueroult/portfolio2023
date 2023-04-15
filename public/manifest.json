@@ -1,0 +1,20 @@
+{
+  "name": "Pierre Guéroult - Portfolio",
+  "short_name": "Pierre Guéroult",
+  "description": "Bienvenue sur le portfolio 2022 de Pierre Guéroult, étudiant et développeur web. Il résume ses projets de ces dernières années ainsi que tout un tas d'informations utiles.",
+  "theme_color": "#ffffff",
+  "background_color": "#0c1b4a",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "dir": "ltr",
+  "lang": "fr",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/250x250.png",
+      "sizes": "250x250.png",
+      "type": "image/png"
+    }
+  ]
+}

@@ -13,6 +13,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  z-index: 3;
 
   &.variant {
     background-color: variables.$background_color;
@@ -430,23 +431,33 @@
 }
 
 .sectionthird {
-  flex-direction: column;
+  background-color: darken(variables.$font_color, 15%) !important;
+  width: 100vw;
+  height: unset;
+  display: block;
+  min-height: 100vh;
+  position: sticky;
+  top: 0px;
+  overflow: unset;
+
+  &__container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   &__title {
     font-family: var(--textFont);
-    width: fit-content;
-    display: flex;
-    margin-top: 1vw;
-    left: 0;
+    font-size: 23vw;
+    z-index: 1;
     white-space: nowrap;
-
-    span {
-      font-size: 10vw;
-      text-transform: uppercase;
-      font-variation-settings: "wght" 800, "ital" 0;
-      color: variables.$font_color;
-      margin-right: 5vw;
-    }
-
-    transform: translateX(0%);
+    color: variables.$background_color_main;
+    font-weight: 900;
+    text-transform: uppercase;
+    user-select: none;
   }
 }

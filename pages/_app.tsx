@@ -2,6 +2,7 @@ import { AppProps } from "next/app";
 import { Router } from "next/router";
 import { DefaultSeo } from "next-seo";
 import { AnimatePresence } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 import NProgress from "nprogress";
 import Script from "next/script";
 
@@ -41,6 +42,29 @@ function MainApp({ Component, pageProps, router }: AppProps) {
             content: "Pierre Gueroult",
           },
         ]}
+        additionalLinkTags={[
+          {
+            rel: "icon",
+            href: "/icons/250x250.png",
+          },
+          {
+            rel: "apple-touch-icon",
+            href: "/icons/250x250.png",
+          },
+          {
+            rel: "manifest",
+            href: "/manifest.json",
+          },
+          {
+            rel: "mask-icon",
+            href: "/icons/250x250.png",
+            color: "#000000",
+          },
+          {
+            rel: "shortcut icon",
+            href: "/icons/250x250.png",
+          },
+        ]}
       />
       <Script
         async
@@ -72,6 +96,7 @@ function MainApp({ Component, pageProps, router }: AppProps) {
         <Component {...pageProps} canonical={currentUrl} />
       </AnimatePresence>
       <Footer />
+      <Analytics />
     </>
   );
 }
