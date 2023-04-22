@@ -21,6 +21,10 @@
   text-align: center;
   width: 100vw;
 
+  @media screen and (max-width: 1100px) {
+    display: none;
+  }
+
   span {
     position: relative;
   }
@@ -36,12 +40,22 @@
   bottom: 0;
   left: 0;
 
+  @media screen and (max-width: 1100px) {
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+  }
+
   &__socialMedias {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     margin-top: 2rem;
+
+    @media screen and (max-width: 1100px) {
+      display: none;
+    }
 
     li {
       height: 40px;
@@ -70,6 +84,10 @@
 
   &__form {
     width: 35vw;
+
+    @media screen and (max-width: 1100px) {
+      width: 80%;
+    }
 
     &__container {
       display: flex;
@@ -173,6 +191,10 @@
 
   &__topics {
     width: 40vw;
+
+    @media screen and (max-width: 1100px) {
+      width: 80%;
+    }
 
     h3 {
       font-size: 1.9rem;

@@ -105,7 +105,7 @@ export default function Project(props: Props): JSX.Element {
 }
 
 const ProjectWorkers = (props: { workers: WorkerType[] | undefined }) => {
-  const [currentWorker, setCurrentWorker] = useState(0);
+  const [currentWorker, setCurrentWorker] = useState(-1);
 
   useEffect(() => {
     if (props.workers !== undefined && props.workers.length > 0) {
@@ -174,6 +174,12 @@ const ProjectWorkers = (props: { workers: WorkerType[] | undefined }) => {
                 <Fragment key={index}></Fragment>
               )
             )}
+          {props.workers && currentWorker === -1 && (
+            <p>
+              Cliquer sur un nom pour faire apparaître son avatar (création de
+              lag conséquent)
+            </p>
+          )}
         </div>
       </div>
       <div className={styles.workers__end}></div>
@@ -279,25 +285,27 @@ const ProjectContent = (props: { data: CompleteProjectType }) => {
                 </a>
               </div>
             </div>
-            <div className={styles.content__images__selector}>
-              {props.data.contentImages.map((image, index) => (
-                <button
-                  key={index}
-                  className={styles.content__images__selector__button}
-                  aria-label="Select image"
-                  onClick={() => setCurrentImage(index)}
-                >
-                  <Image
+            {props.data.contentImages.length > 0 && (
+              <div className={styles.content__images__selector}>
+                {props.data.contentImages.map((image, index) => (
+                  <button
                     key={index}
-                    src={image}
-                    alt={`Image ${index + 1}`}
-                    width={100}
-                    height={100}
-                    className={`${styles.content__selector__image}`}
-                  />
-                </button>
-              ))}
-            </div>
+                    className={styles.content__images__selector__button}
+                    aria-label="Select image"
+                    onClick={() => setCurrentImage(index)}
+                  >
+                    <Image
+                      key={index}
+                      src={image}
+                      alt={`Image ${index + 1}`}
+                      width={100}
+                      height={100}
+                      className={`${styles.content__selector__image}`}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </>
       ) : (
@@ -346,6 +354,16 @@ const ProjectBanner = (props: { data: CompleteProjectType }) => {
                 </tr>
               </tbody>
             </table>
+            {props.data.asset && props.data.asset !== "" && (
+              <a
+                href={props.data.asset}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.banner__button}
+              >
+                {props.data.type === "video" ? "Voir la vidéo" : "Voir le site"}
+              </a>
+            )}
           </div>
           <div className={styles.banner__container}>
             <ul>

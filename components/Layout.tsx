@@ -2,9 +2,11 @@
 
 // ? import modules
 import { NextSeo } from "next-seo";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { motion } from "framer-motion";
 import Head from "next/head";
+import styles from "@/styles/Layout.module.scss";
+import Link from "next/link";
 
 // ? import other files
 import { titleFont, textFont, codeFont } from "@/lib/fontHandling";
@@ -44,7 +46,6 @@ function Layout({
       <NextSeo
         title={title}
         description={description}
-        canonical={canonical ? canonical : "https://pierregueroult.dev"}
         openGraph={{
           title: title,
           description: description,

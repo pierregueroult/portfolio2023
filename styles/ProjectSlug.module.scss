@@ -307,6 +307,22 @@ $radius: 5rem;
     border-bottom-left-radius: $radius;
     position: relative;
 
+    p {
+      font-family: var(--textFont);
+      font-size: 1.6rem;
+      color: variables.$font_color;
+      margin-bottom: 1rem;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      @media screen and (max-width: 800px) {
+        display: none;
+      }
+    }
+
     @media screen and (max-width: 800px) {
       width: 100vw;
       position: absolute;
@@ -340,6 +356,27 @@ $radius: 5rem;
   overflow: hidden;
 
   border-radius: $radius $radius 0 0;
+
+  &__button {
+    width: 100%;
+    background-color: var(--main);
+    color: var(--reverse);
+    font-size: 1.2rem;
+    font-family: var(--textFont);
+    padding: 1rem 3rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: var(--reverse);
+      color: var(--main);
+    }
+  }
 
   &__container {
     height: 100%;

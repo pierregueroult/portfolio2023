@@ -23,8 +23,6 @@ function Footer() {
   return (
     <footer
       className={`${styles.footer} ${textFont.variable} ${
-        variantsPages.includes(router.pathname) ? styles.hidden : ""
-      } ${
         router.pathname.startsWith("/projects/") &&
         router.pathname !== "/projects/all"
           ? styles.projectVariant

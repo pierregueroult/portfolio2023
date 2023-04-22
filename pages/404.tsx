@@ -10,11 +10,6 @@ import Draggable from "react-draggable";
 const title = "404";
 const description = "La page que vous cherchez n'existe pas !";
 
-type Props = {
-  top: string;
-  left: string;
-};
-
 function randomIntFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }

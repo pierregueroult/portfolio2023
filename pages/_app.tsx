@@ -10,6 +10,7 @@ import Script from "next/script";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import "@/styles/_global.scss";
+import Consent from "@/components/Consent";
 
 // ? setup nprogress
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -96,6 +97,7 @@ function MainApp({ Component, pageProps, router }: AppProps) {
         <Component {...pageProps} canonical={currentUrl} />
       </AnimatePresence>
       <Footer />
+      <Consent />
       <Analytics />
     </>
   );
