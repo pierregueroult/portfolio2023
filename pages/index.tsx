@@ -134,73 +134,77 @@ function Home(props: Props) {
         }
       });
       // ? articles animations
-      let tl = gsap.timeline();
+      let mm = gsap.matchMedia();
 
       for (let i = 0; i < articles.length; i++) {
-        tl.fromTo(
-          titles[i],
-          { opacity: 0, x: -100 },
-          {
-            opacity: 1,
-            x: 0,
-            ease: "linear",
-            scrollTrigger: {
-              trigger: articles[i],
-              start: "top 60%",
-              end: "+=300",
-              scrub: 1,
-              containerAnimation: i !== 0 ? tween : undefined,
-            },
-          }
-        );
-        tl.fromTo(
-          descriptions[i],
-          { opacity: 0, x: -100 },
-          {
-            opacity: 1,
-            x: 0,
-            ease: "linear",
-            scrollTrigger: {
-              trigger: articles[i],
-              start: "top 40%",
-              end: "+=300",
-              scrub: 1,
-              containerAnimation: i !== 0 ? tween : undefined,
-            },
-          }
-        );
-        tl.fromTo(
-          images[i],
-          { opacity: 0, x: 100 },
-          {
-            opacity: 1,
-            x: 0,
-            ease: "linear",
-            scrollTrigger: {
-              trigger: articles[i],
-              start: "top 40%",
-              end: "+=300",
-              scrub: 1,
-              containerAnimation: i !== 0 ? tween : undefined,
-            },
-          }
-        );
-        tl.fromTo(
-          assets[i],
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            ease: "linear",
-            scrollTrigger: {
-              trigger: articles[i],
-              start: "top 40%",
-              end: "+=300",
-              scrub: 1,
-              containerAnimation: i !== 0 ? tween : undefined,
-            },
-          }
-        );
+        mm.add("(min-width: 800px", () => {
+          let tl = gsap.timeline();
+
+          tl.fromTo(
+            titles[i],
+            { opacity: 0, x: -100 },
+            {
+              opacity: 1,
+              x: 0,
+              ease: "linear",
+              scrollTrigger: {
+                trigger: articles[i],
+                start: "top 60%",
+                end: "+=300",
+                scrub: 1,
+                containerAnimation: i !== 0 ? tween : undefined,
+              },
+            }
+          );
+          tl.fromTo(
+            descriptions[i],
+            { opacity: 0, x: -100 },
+            {
+              opacity: 1,
+              x: 0,
+              ease: "linear",
+              scrollTrigger: {
+                trigger: articles[i],
+                start: "top 40%",
+                end: "+=300",
+                scrub: 1,
+                containerAnimation: i !== 0 ? tween : undefined,
+              },
+            }
+          );
+          tl.fromTo(
+            images[i],
+            { opacity: 0, x: 100 },
+            {
+              opacity: 1,
+              x: 0,
+              ease: "linear",
+              scrollTrigger: {
+                trigger: articles[i],
+                start: "top 40%",
+                end: "+=300",
+                scrub: 1,
+                containerAnimation: i !== 0 ? tween : undefined,
+              },
+            }
+          );
+          tl.fromTo(
+            assets[i],
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              ease: "linear",
+              scrollTrigger: {
+                trigger: articles[i],
+                start: "top 40%",
+                end: "+=300",
+                scrub: 1,
+                containerAnimation: i !== 0 ? tween : undefined,
+              },
+            }
+          );
+        });
       }
 
       ScrollTrigger.batch(".topics > li", {
