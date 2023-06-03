@@ -18,15 +18,15 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import axios from "axios";
 import getInvertedColor from "@/lib/getInvertedColor";
 
-const maleAnimations = [
-  "https://data.pierregueroult.dev/avatars/male-idle.glb",
-  "https://data.pierregueroult.dev/avatars/hiphop.glb",
-];
-const femaleAnimations = [
-  "https://data.pierregueroult.dev/avatars/rumba.glb",
-  "https://data.pierregueroult.dev/avatars/taunt.glb",
-];
-const animations = [...maleAnimations, ...femaleAnimations];
+// const maleAnimations = [
+//   "https://data.pierregueroult.dev/avatars/male-idle.glb",
+//   "https://data.pierregueroult.dev/avatars/hiphop.glb",
+// ];
+// const femaleAnimations = [
+//   "https://data.pierregueroult.dev/avatars/rumba.glb",
+//   "https://data.pierregueroult.dev/avatars/taunt.glb",
+// ];
+// const animations = [...maleAnimations, ...femaleAnimations];
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -161,15 +161,31 @@ const ProjectWorkers = (props: { workers: WorkerType[] | undefined }) => {
           {props.workers &&
             props.workers.map((worker, index) =>
               index === currentWorker ? (
-                <Avatar
-                  modelSrc={worker.data.image}
-                  animationSrc={animations[0]}
-                  className={styles.workers__avatar}
-                  scale={0.26}
-                  cameraTarget={0.23}
-                  cameraInitialDistance={0.2}
-                  key={index}
-                />
+                // <Avatar
+                //   modelSrc={worker.data.image}
+                //   animationSrc={animations[0]}
+                //   className={styles.workers__avatar}
+                //   scale={0.26}
+                //   cameraTarget={0.23}
+                //   cameraInitialDistance={0.2}
+                //   key={index}
+                // />
+                <Fragment key={index}>
+                  <div
+                    style={{
+                      color: "white",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100%",
+                      width: "100%",
+                      fontSize: "2rem",
+                    }}
+                  >
+                    Problème de performance client avec les avatar, réessayer
+                    ulterieurement !
+                  </div>
+                </Fragment>
               ) : (
                 <Fragment key={index}></Fragment>
               )

@@ -35,17 +35,17 @@ type resultType = {
 };
 
 export default function About({ resultSkills, types, resultJobs }: AboutProps) {
-  const [animations, setAnimations] = useState<Array<string>>([
-    "/3d/hiphop.glb",
-    "/3d/silly.glb",
-    "/3d/idle.glb",
-    "/3d/guitar.glb",
-    // "/3d/run.glb",
-  ]);
+  // const [animations, setAnimations] = useState<Array<string>>([
+  //   "/3d/hiphop.glb",
+  //   "/3d/silly.glb",
+  //   "/3d/idle.glb",
+  //   "/3d/guitar.glb",
+  //   // "/3d/run.glb",
+  // ]);
 
-  const handleEgg = () => {
-    setAnimations(["/3d/twerk.glb"]);
-  };
+  // const handleEgg = () => {
+  //   setAnimations(["/3d/twerk.glb"]);
+  // };
 
   useEffect(() => {
     // ! Animations for the skill section
@@ -151,7 +151,7 @@ export default function About({ resultSkills, types, resultJobs }: AboutProps) {
           </div>
         </div>
         <div className={styles.about__imageContainer}>
-          <Avatar
+          {/* <Avatar
             modelSrc={
               "https://data.pierregueroult.dev/avatars/pierregueroult.glb"
             }
@@ -162,7 +162,7 @@ export default function About({ resultSkills, types, resultJobs }: AboutProps) {
             scale={0.26}
             cameraTarget={0.23}
             cameraInitialDistance={0.2}
-          />
+          /> */}
         </div>
       </section>
       <section className={styles.skills}>
@@ -171,7 +171,7 @@ export default function About({ resultSkills, types, resultJobs }: AboutProps) {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 600 611"
-            onClick={handleEgg}
+            // onClick={handleEgg}
             aria-label="O"
           >
             <g transform="translate(-277.14275,-3.3922404)">
