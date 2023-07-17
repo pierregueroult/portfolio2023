@@ -333,7 +333,7 @@ const Creation = ({ creation }: { creation: Creation }) => {
       <div className={styles.projects__article__titles}>
         <Link href={`/projects/${creation.concatenatedName}`}>
           <h3 className={styles.projects__article__titles__title}>
-            SITE WEB
+            PROJET
             <br />
             <span className={styles.projects__article__titles__title__variant}>
               {creation.name.toUpperCase()}
@@ -449,8 +449,23 @@ export default Home;
 export const getStaticProps: GetStaticProps = async () => {
   const creations: Creation[] = await prisma.project.findMany({
     where: {
-      type: "web",
-      visible: true,
+      OR: [
+        {
+          concatenatedName: {
+            contains: "basketexplorer",
+          },
+        },
+        {
+          concatenatedName: {
+            contains: "konbinul",
+          },
+        },
+        {
+          concatenatedName: {
+            contains: "darkenedmurder",
+          },
+        },
+      ],
     },
     select: {
       color: true,
@@ -460,7 +475,7 @@ export const getStaticProps: GetStaticProps = async () => {
       concatenatedName: true,
       asset: true,
     },
-    take: 5,
+    take: 3,
   });
 
   creations.forEach((creation) => {
